@@ -1,0 +1,7 @@
+export enum UserActionTypes {
+  CHECK_USER = 'CHECK_USER',
+  FETCH_USER = 'FETCH_USER',
+  CREATE_USER = 'CREATE_USER',
+  DELETE_USER = 'DELETE_USER',
+  USER_ERROR = 'USER_ERROR',
+}
