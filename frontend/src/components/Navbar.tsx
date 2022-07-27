@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import StyledNavbar from './Navbar.styles';
 import { useTypedSelector } from '../hooks/useTypedSelector';
@@ -23,12 +24,16 @@ const Navbar: React.FC = () => {
     } else {
       return (
         <>
-          <button type="button" className={className}>
-            Sign In
-          </button>
-          <button type="button" className={className}>
-            Sign Up
-          </button>
+          <Link to="/users/signin">
+            <button type="button" className={className}>
+              Sign In
+            </button>
+          </Link>
+          <Link to="/users/signup">
+            <button type="button" className={className}>
+              Sign Up
+            </button>
+          </Link>
         </>
       );
     }
