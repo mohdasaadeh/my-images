@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+
+import { Image } from '../images/image.entity';
 
 @Entity()
 export class User {
@@ -11,9 +13,18 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  image: string;
+
   @Column({ default: Date.now() })
   createdAt: Date;
 
+  @Column({ default: Date.now() })
+  editedAt: Date;
+
   @Column({ default: true })
   active: boolean;
+
+  @OneToMany(() => Image, (image) => image.user)
+  images: Image[];
 }

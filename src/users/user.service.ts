@@ -8,6 +8,7 @@ export interface UserBodyProps {
   id?: number;
   email?: string;
   password?: string;
+  image?: string;
 }
 
 @Injectable()

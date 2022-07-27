@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Session } from '@nestjs/common';
 
 import { CreateUserDto } from './dtos/create-user.dto';
+import { GetUserDto } from './dtos/get-user.dto';
 import { UserBodyProps } from './user.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
@@ -22,7 +23,7 @@ export class UserController {
   }
 
   @Post('/signin')
-  async getUser(@Body() body: CreateUserDto, @Session() session: any) {
+  async getUser(@Body() body: GetUserDto, @Session() session: any) {
     const user = await this.authService.signin(body);
 
     session.userId = user.id;

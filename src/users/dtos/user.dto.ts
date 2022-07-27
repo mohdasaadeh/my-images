@@ -8,7 +8,13 @@ export class UserDto {
   email: string;
 
   @Expose()
+  image: string;
+
+  @Expose()
   createdAt: Date;
+
+  @Expose()
+  editedAt: Date;
 
   @Expose()
   active: boolean;
