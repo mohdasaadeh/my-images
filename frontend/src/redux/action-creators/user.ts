@@ -6,7 +6,7 @@ import { UserActionTypes } from '../action-types';
 
 export const checkUser = () => async (dispatch: Dispatch<UserActions>) => {
   try {
-    const { data } = await axios.get('/users/current-user');
+    const { data } = await axios.get('/api/users/current-user');
 
     dispatch({
       type: UserActionTypes.CHECK_USER,
@@ -24,7 +24,7 @@ export const fetchUser =
   (body: { email: string; password: string }) =>
   async (dispatch: Dispatch<UserActions>) => {
     try {
-      const { data } = await axios.post('/users/signin', body);
+      const { data } = await axios.post('/api/users/signin', body);
 
       dispatch({
         type: UserActionTypes.FETCH_USER,
@@ -42,7 +42,7 @@ export const createUser =
   (body: { email: string; password: string }) =>
   async (dispatch: Dispatch<UserActions>) => {
     try {
-      const { data } = await axios.post('/users/signup', body);
+      const { data } = await axios.post('/api/users/signup', body);
 
       dispatch({
         type: UserActionTypes.CREATE_USER,
@@ -58,7 +58,7 @@ export const createUser =
 
 export const deleteUser = () => async (dispatch: Dispatch<UserActions>) => {
   try {
-    await axios.post('/users/signout');
+    await axios.post('/api/users/signout');
 
     dispatch({
       type: UserActionTypes.DELETE_USER,

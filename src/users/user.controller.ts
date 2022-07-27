@@ -7,7 +7,7 @@ import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
 
-@Controller('/users')
+@Controller('/api/users')
 @Serialize(UserDto)
 export class UserController {
   constructor(private authService: AuthService) {}
@@ -37,6 +37,10 @@ export class UserController {
 
   @Get('/current-user')
   getCurrentUser(@CurrentUser() user: UserBodyProps) {
+    if (!user) {
+      return null;
+    }
+
     return user;
   }
 }

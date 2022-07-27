@@ -22,6 +22,8 @@ const userReducer = (
   action: UserActions,
 ): UserState => {
   switch (action.type) {
+    case UserActionTypes.CHECK_USER:
+      return { loading: false, data: { id: action.payload.id }, error: null };
     case UserActionTypes.FETCH_USER:
       return { loading: false, data: { id: action.payload.id }, error: null };
     case UserActionTypes.CREATE_USER:

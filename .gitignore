@@ -3,6 +3,7 @@
 development.sqlite
 test.sqlite
 users.http
+formatter.html
 
 # compiled output
 /dist
