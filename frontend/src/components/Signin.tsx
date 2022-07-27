@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
+import { SubmitHandler } from 'react-hook-form';
 
 import AuthForm from './AuthForm';
+import { Inputs } from './AuthForm';
+import { useActionCreators } from '../hooks/useActionCreators';
 
 const Signin: React.FC = () => {
+  const { fetchUser } = useActionCreators();
+
   const renderTitle = (
     <div>
       <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -20,7 +25,11 @@ const Signin: React.FC = () => {
     </div>
   );
 
-  return <AuthForm action="Sign in" renderTitle={renderTitle} />;
+  const onSubmit: SubmitHandler<Inputs> = (data) => fetchUser(data);
+
+  return (
+    <AuthForm action="Sign in" renderTitle={renderTitle} onSubmit={onSubmit} />
+  );
 };
 
 export default Signin;

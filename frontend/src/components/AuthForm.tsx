@@ -1,15 +1,33 @@
+import { useForm, SubmitHandler } from 'react-hook-form';
+
 interface AuthFormProps {
   action: string;
   renderTitle: JSX.Element;
+  onSubmit: (data: Inputs) => SubmitHandler<Inputs>;
 }
 
-const AuthForm: React.FC<AuthFormProps> = ({ action, renderTitle }) => {
+export type Inputs = {
+  email: string;
+  password: string;
+};
+
+const AuthForm: React.FC<AuthFormProps> = ({
+  action,
+  renderTitle,
+  onSubmit,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           {renderTitle}
-          <form className="mt-8 space-y-6" action="#" method="POST">
+          <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -18,13 +36,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ action, renderTitle }) => {
                 </label>
                 <input
                   id="email-address"
-                  name="email"
                   type="email"
                   autoComplete="email"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
+                  {...register('email', { required: true })}
                 />
+                {errors.email && <span>This field is required</span>}
               </div>
               <div>
                 <label htmlFor="password" className="sr-only">
@@ -32,13 +51,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ action, renderTitle }) => {
                 </label>
                 <input
                   id="password"
-                  name="password"
                   type="password"
                   autoComplete="current-password"
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
+                  {...register('password', { required: true })}
                 />
+                {errors.password && <span>This field is required</span>}
               </div>
             </div>
 

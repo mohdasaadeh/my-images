@@ -8,17 +8,21 @@ import { useActionCreators } from '../hooks/useActionCreators';
 const Navbar: React.FC = () => {
   const user = useTypedSelector(({ user }) => user.data);
 
-  const { checkUser } = useActionCreators();
+  const { checkUser, deleteUser } = useActionCreators();
 
   useEffect(() => {
     checkUser();
   }, []);
 
+  const onSignout = () => {
+    deleteUser();
+  };
+
   const renderAuth = (className: string): JSX.Element => {
     if (user.id) {
       return (
-        <button type="button" className={className}>
-          Log out
+        <button type="button" className={className} onClick={onSignout}>
+          Sign out
         </button>
       );
     } else {
