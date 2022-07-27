@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 import { Image } from '../images/image.entity';
+import { ImageLike } from '../image-likes/image-like.entity';
 
 @Entity()
 export class User {
@@ -27,4 +28,7 @@ export class User {
 
   @OneToMany(() => Image, (image) => image.user)
   images: Image[];
+
+  @OneToMany(() => ImageLike, (imageLike) => imageLike.user)
+  imageLikes: ImageLike[];
 }

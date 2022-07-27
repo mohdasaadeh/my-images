@@ -4,6 +4,7 @@ development.sqlite
 test.sqlite
 users.http
 images.http
+image-likes.http
 formatter.html
 
 # compiled output

@@ -1,5 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+
 import { User } from '../users/user.entity';
+import { ImageLike } from '../image-likes/image-like.entity';
 
 @Entity()
 export class Image {
@@ -26,4 +34,7 @@ export class Image {
 
   @ManyToOne(() => User, (user) => user.images)
   user: User;
+
+  @OneToMany(() => ImageLike, (imageLike) => imageLike.image)
+  imageLikes: ImageLike[];
 }

@@ -8,8 +8,10 @@ const cookieSession = require('cookie-session');
 
 import { UserModule } from './users/user.module';
 import { ImageModule } from './images/image.module';
+import { ImageLikeModule } from './image-likes/image-like.module';
 import { User } from './users/user.entity';
 import { Image } from './images/image.entity';
+import { ImageLike } from './image-likes/image-like.entity';
 
 @Module({
   imports: [
@@ -24,12 +26,13 @@ import { Image } from './images/image.entity';
           type: 'sqlite',
           database: config.get<string>('DB_NAME'),
           synchronize: true,
-          entities: [User, Image],
+          entities: [User, Image, ImageLike],
         };
       },
     }),
     UserModule,
     ImageModule,
+    ImageLikeModule,
   ],
   providers: [
     {
