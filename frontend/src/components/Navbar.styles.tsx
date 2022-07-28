@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 interface StyledNavbarProps {
   renderAuth: (className: string) => JSX.Element;
 }
@@ -53,13 +55,13 @@ const StyledNavbar: React.FC<StyledNavbarProps> = ({ renderAuth }) => {
             </div>
             <div className="hidden sm:block sm:ml-6">
               <div className="flex space-x-4">
-                <a
-                  href="/#"
+                <Link
+                  to="/images"
                   className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium"
                   aria-current="page"
                 >
                   Feed
-                </a>
+                </Link>
 
                 <a
                   href="/#"
