@@ -3,8 +3,8 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { ImageLike } from './image-like.entity';
-import { Image } from '../images/image.entity';
-import { User } from '../users/user.entity';
+import { Image } from '../image.entity';
+import { User } from '../../users/user.entity';
 
 @Injectable()
 export class ImageLikeService {

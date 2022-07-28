@@ -8,10 +8,9 @@ const cookieSession = require('cookie-session');
 
 import { UserModule } from './users/user.module';
 import { ImageModule } from './images/image.module';
-import { ImageLikeModule } from './image-likes/image-like.module';
 import { User } from './users/user.entity';
 import { Image } from './images/image.entity';
-import { ImageLike } from './image-likes/image-like.entity';
+import { ImageLike } from './images/image-likes/image-like.entity';
 
 @Module({
   imports: [
@@ -32,7 +31,6 @@ import { ImageLike } from './image-likes/image-like.entity';
     }),
     UserModule,
     ImageModule,
-    ImageLikeModule,
   ],
   providers: [
     {

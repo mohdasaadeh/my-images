@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 
 import { User } from '../users/user.entity';
-import { ImageLike } from '../image-likes/image-like.entity';
+import { ImageLike } from './image-likes/image-like.entity';
 
 @Entity()
 export class Image {

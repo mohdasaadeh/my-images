@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 
 import { ImageLikeService } from './image-like.service';
-import { CurrentUser } from '../users/decorators/current-user.decorator';
-import { User } from '../users/user.entity';
-import { AuthGuard } from '../guards/auth.guard';
-import { Serialize } from '../interceptors/serialize.interceptor';
+import { CurrentUser } from '../../users/decorators/current-user.decorator';
+import { User } from '../../users/user.entity';
+import { AuthGuard } from '../../guards/auth.guard';
+import { Serialize } from '../../interceptors/serialize.interceptor';
 import { ImageLikeDto } from './dtos/image-like.dto';
 
 @Controller('/api/image-likes')

@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 import { Image } from '../images/image.entity';
-import { ImageLike } from '../image-likes/image-like.entity';
+import { ImageLike } from '../images/image-likes/image-like.entity';
 
 @Entity()
 export class User {
