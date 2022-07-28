@@ -1,4 +1,4 @@
-import { BadGatewayException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -21,7 +21,7 @@ export class ImageLikeService {
     });
 
     if (!image)
-      throw new BadGatewayException(
+      throw new BadRequestException(
         'Error in fetching data, please try again.',
       );
 
@@ -35,15 +35,19 @@ export class ImageLikeService {
     const image = await this.imageRepo.findOneBy({
       id: imageId,
       active: true,
-      user,
     });
 
     if (!image)
-      throw new BadGatewayException(
+      throw new BadRequestException(
         'Error in fetching data, please try again.',
       );
 
-    const imageLike = this.imageLikeRepo.create();
+    let imageLike = await this.imageLikeRepo.findOneBy({ image, user });
+
+    if (imageLike)
+      throw new BadRequestException('You liked this image before!');
+
+    imageLike = this.imageLikeRepo.create();
 
     imageLike.image = image;
     imageLike.user = user;
@@ -55,11 +59,10 @@ export class ImageLikeService {
     const image = await this.imageRepo.findOneBy({
       id: imageId,
       active: true,
-      user,
     });
 
     if (!image)
-      throw new BadGatewayException(
+      throw new BadRequestException(
         'Error in fetching data, please try again.',
       );
 
@@ -68,10 +71,13 @@ export class ImageLikeService {
       relations: { image: true, user: true },
     });
 
+    if (!imageLike)
+      throw new BadRequestException("You didn't like this image before!");
+
     const deletedLike = await this.imageLikeRepo.delete(imageLike.id);
 
-    if (deletedLike.affected < 1) {
-      throw new BadGatewayException(
+    if (deletedLike.affected !== 1) {
+      throw new BadRequestException(
         'Error in fetching data, please try again.',
       );
     }
