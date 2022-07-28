@@ -1,6 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  paginate,
+  Pagination,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 import { Image } from './image.entity';
 import { User } from '../users/user.entity';
@@ -15,8 +20,17 @@ export interface ImageProps {
 export class ImageService {
   constructor(@InjectRepository(Image) private repo: Repository<Image>) {}
 
-  findAll() {
-    return this.repo.find({ relations: { user: true } });
+  async findAllPaginated(
+    options: IPaginationOptions,
+  ): Promise<Pagination<Image>> {
+    const queryBuilder = this.repo.createQueryBuilder('image');
+
+    queryBuilder
+      .leftJoinAndSelect('image.user', 'user')
+      .select(['image', 'user.id'])
+      .getOne();
+
+    return paginate<Image>(queryBuilder, options);
   }
 
   insert(imageData: ImageProps, user: User) {

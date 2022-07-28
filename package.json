@@ -1,5 +1,5 @@
 {
-  "name": "my-movies",
+  "name": "my-images",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -34,7 +34,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
     "sqlite3": "^5.0.10",
-    "typeorm": "^0.3.7"
+    "typeorm": "^0.3.7",
+    "nestjs-typeorm-paginate": "git+https://github.com/jely2002/nestjs-typeorm-paginate.git"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
