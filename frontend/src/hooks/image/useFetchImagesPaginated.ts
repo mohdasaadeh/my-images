@@ -18,6 +18,23 @@ export const useFetchImagesPaginated = <T>() => {
 
   const dispatch = useAppDispatch();
 
+  const lastImageElementRef = useCallback(
+    (node: T) => {
+      if (loading) return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore],
+  );
+
   useEffect(() => {
     const canceller = new AbortController();
 
@@ -42,23 +59,6 @@ export const useFetchImagesPaginated = <T>() => {
 
     return () => canceller.abort();
   }, [pageNumber]);
-
-  const lastImageElementRef = useCallback(
-    (node: T) => {
-      if (loading) return;
-
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore],
-  );
 
   return { lastImageElementRef };
 };
