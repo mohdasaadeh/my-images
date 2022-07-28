@@ -8,7 +8,7 @@ export class UserDto {
   email: string;
 
   @Expose()
-  image: string;
+  image?: string;
 
   @Expose()
   createdAt: Date;
