@@ -1,16 +1,21 @@
-import { useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { ImageActionTypes } from '../../redux';
 import { AppDispatch } from '../../redux';
+import { useTypedSelector } from '../useTypedSelector';
 
 const useAppDispatch: () => AppDispatch = useDispatch;
 
-export const useFetchImagesPaginated = (
-  pageNumber: number,
-  setHasMore: Function,
-) => {
+export const useFetchImagesPaginated = <T>() => {
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+
+  const loading = useTypedSelector(({ images }) => images.loading);
+
+  const observer = useRef<any>();
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,4 +42,23 @@ export const useFetchImagesPaginated = (
 
     return () => canceller.abort();
   }, [pageNumber]);
+
+  const lastImageElementRef = useCallback(
+    (node: T) => {
+      if (loading) return;
+
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore],
+  );
+
+  return { lastImageElementRef };
 };

@@ -4,32 +4,10 @@ import { useFetchImagesPaginated } from '../hooks';
 import { useTypedSelector } from '../hooks';
 
 const Feed: React.FC = () => {
-  const [pageNumber, setPageNumber] = useState(1);
-  const [hasMore, setHasMore] = useState(false);
-
   const images = useTypedSelector(({ images }) => images.data);
   const loading = useTypedSelector(({ images }) => images.loading);
 
-  useFetchImagesPaginated(pageNumber, setHasMore);
-
-  const observer = useRef<any>();
-
-  const lastImageElementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (loading) return;
-
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
-        }
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore],
-  );
+  const { lastImageElementRef } = useFetchImagesPaginated<HTMLDivElement>();
 
   return (
     <>
