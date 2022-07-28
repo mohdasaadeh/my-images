@@ -1,8 +1,7 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import AuthForm from './AuthForm';
-import { Inputs } from './AuthForm';
-import { useActionCreators } from '../hooks/useActionCreators';
+import AuthForm, { Inputs } from '../components/AuthForm';
+import { useActionCreators } from '../hooks';
 
 const Signup: React.FC = () => {
   const { createUser } = useActionCreators();

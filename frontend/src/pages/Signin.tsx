@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { SubmitHandler } from 'react-hook-form';
 
-import AuthForm from './AuthForm';
-import { Inputs } from './AuthForm';
-import { useActionCreators } from '../hooks/useActionCreators';
+import AuthForm from '../components/AuthForm';
+import { Inputs } from '../components/AuthForm';
+import { useActionCreators } from '../hooks';
 
 const Signin: React.FC = () => {
   const { fetchUser } = useActionCreators();

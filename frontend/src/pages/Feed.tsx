@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 
-import { useImage } from '../redux';
-import { useTypedSelector } from '../hooks/useTypedSelector';
+import { useFetchImagesPaginated } from '../hooks';
+import { useTypedSelector } from '../hooks';
 
 const Feed: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -10,14 +10,12 @@ const Feed: React.FC = () => {
   const images = useTypedSelector(({ images }) => images.data);
   const loading = useTypedSelector(({ images }) => images.loading);
 
-  const { useFetchImagesPaginated } = useImage();
-
   useFetchImagesPaginated(pageNumber, setHasMore);
 
   const observer = useRef<any>();
 
   const lastImageElementRef = useCallback(
-    (node: any) => {
+    (node: HTMLDivElement) => {
       if (loading) return;
 
       if (observer.current) observer.current.disconnect();

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import './styles/input.css';
-import Signin from './Signin';
-import Signup from './Signup';
-import Navbar from './Navbar';
-import Feed from './Feed';
+import './style.css';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import Navbar from './components/Navbar';
+import Feed from './pages/Feed';
 
 const App: React.FC = () => {
   return (
