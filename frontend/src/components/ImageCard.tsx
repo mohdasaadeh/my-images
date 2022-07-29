@@ -1,8 +1,8 @@
-import { Image } from '../redux';
+import { Image, User } from '../redux';
 
 interface ImageCardProps {
   image: Image;
-  user: { id: string | number | null };
+  user: User;
 }
 
 const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
