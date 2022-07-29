@@ -27,12 +27,13 @@ export class ImageService {
   async findAllPaginated(
     options: IPaginationOptions,
     term: string,
+    user: User,
   ): Promise<Pagination<Image>> {
     const queryBuilder = this.repo.createQueryBuilder('image');
 
     queryBuilder
       .leftJoinAndSelect('image.user', 'user')
-      .select(['image', 'user.id'])
+      .select(['image', 'user.id', 'user.username', 'user.image'])
       .getMany();
 
     if (term) {
@@ -43,23 +44,71 @@ export class ImageService {
         });
     }
 
-    return paginate<Image>(queryBuilder, options);
+    const result = await paginate<Image>(queryBuilder, options);
+
+    for (const item of result.items) {
+      const imageLikes = await this.imageLikeRepo
+        .createQueryBuilder('imageLike')
+        .select('COUNT(imageLike.image)', 'imageLikesCount')
+        .where('imageLike.image = :imageId', { imageId: item.id })
+        .getRawOne();
+
+      item['likes'] = imageLikes;
+
+      const likedByCurrentUser = await this.imageLikeRepo
+        .createQueryBuilder('imageLike')
+        .where('imageLike.image = :imageId', { imageId: item.id })
+        .andWhere('imageLike.user = :userId', { userId: user.id })
+        .getOne();
+
+      if (likedByCurrentUser) {
+        item['likes']['likedByCurrentUser'] = true;
+      } else {
+        item['likes']['likedByCurrentUser'] = false;
+      }
+    }
+
+    return result;
   }
 
   async findAllLiked(
     options: IPaginationOptions,
     user: User,
   ): Promise<Pagination<ImageLike>> {
-    const queryBuilder = this.imageLikeRepo.createQueryBuilder('image_like');
+    const queryBuilder = this.imageLikeRepo.createQueryBuilder('imageLike');
 
     queryBuilder
-      .leftJoinAndSelect('image_like.image', 'image')
-      .leftJoinAndSelect('image_like.user', 'user')
-      .where('image_like.user = :user', { user })
-      .select(['image', 'user.id'])
+      .leftJoinAndSelect('imageLike.image', 'image')
+      .leftJoinAndSelect('imageLike.user', 'user')
+      .where('imageLike.user = :user', { user })
+      .select(['image', 'user.id', 'user.username', 'user.image'])
       .getMany();
 
-    return paginate<ImageLike>(queryBuilder, options);
+    const result = await paginate<ImageLike>(queryBuilder, options);
+
+    for (const item of result.items) {
+      const imageLikes = await this.imageLikeRepo
+        .createQueryBuilder('imageLike')
+        .select('COUNT(imageLike.image)', 'imageLikesCount')
+        .where('imageLike.image = :imageId', { imageId: item.id })
+        .getRawOne();
+
+      item['likes'] = imageLikes;
+
+      const likedByCurrentUser = await this.imageLikeRepo
+        .createQueryBuilder('imageLike')
+        .where('imageLike.image = :imageId', { imageId: item.id })
+        .andWhere('imageLike.user = :userId', { userId: user.id })
+        .getOne();
+
+      if (likedByCurrentUser) {
+        item['likes']['likedByCurrentUser'] = true;
+      } else {
+        item['likes']['likedByCurrentUser'] = false;
+      }
+    }
+
+    return result;
   }
 
   insert(imageData: ImageProps, user: User) {

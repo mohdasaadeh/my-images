@@ -21,11 +21,8 @@ export class ImageLikeController {
   constructor(private imageLikeService: ImageLikeService) {}
 
   @Get('/:imageId')
-  fetchImageLikes(
-    @Param('imageId') imageId: string,
-    @CurrentUser() user: User,
-  ) {
-    return this.imageLikeService.findAll(parseInt(imageId), user);
+  fetchImageLikes(@Param('imageId') imageId: string) {
+    return this.imageLikeService.findAll(parseInt(imageId));
   }
 
   @Post('/:imageId/new')

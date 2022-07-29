@@ -53,6 +53,7 @@ export class ImageController {
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
     @Query('term') term: string,
+    @CurrentUser() user: User,
   ): Promise<Pagination<Image>> {
     limit = limit > 100 ? 100 : limit;
 
@@ -63,6 +64,7 @@ export class ImageController {
         route: '/api/images',
       },
       term,
+      user,
     );
   }
 

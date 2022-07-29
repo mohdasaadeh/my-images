@@ -23,6 +23,26 @@ export class ImageDto {
   active: boolean;
 
   @Expose()
-  @Transform(({ obj }) => obj.user.id)
-  userId: number;
+  @Transform(({ obj }) => {
+    const { id, username, image } = obj.user;
+
+    return { id, username, image };
+  })
+  user: {
+    id: number;
+    username: string;
+    image: string;
+  };
+
+  @Expose()
+  @Transform(() => {
+    return {
+      imageLikesCount: 0,
+      likedByCurrentUser: false,
+    };
+  })
+  likes: {
+    imageLikesCount: number;
+    likedByCurrentUser: boolean;
+  };
 }

@@ -13,11 +13,10 @@ export class ImageLikeService {
     @InjectRepository(Image) private imageRepo: Repository<Image>,
   ) {}
 
-  async findAll(imageId: number, user: User) {
+  async findAll(imageId: number) {
     const image = await this.imageRepo.findOneBy({
       id: imageId,
       active: true,
-      user,
     });
 
     if (!image)
