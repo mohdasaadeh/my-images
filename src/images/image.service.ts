@@ -9,6 +9,7 @@ import {
 
 import { Image } from './image.entity';
 import { User } from '../users/user.entity';
+import { ImageLike } from './image-likes/image-like.entity';
 
 export interface ImageProps {
   title?: string;
@@ -18,7 +19,10 @@ export interface ImageProps {
 
 @Injectable()
 export class ImageService {
-  constructor(@InjectRepository(Image) private repo: Repository<Image>) {}
+  constructor(
+    @InjectRepository(Image) private repo: Repository<Image>,
+    @InjectRepository(ImageLike) private imageLikeRepo: Repository<ImageLike>,
+  ) {}
 
   async findAllPaginated(
     options: IPaginationOptions,
@@ -40,6 +44,22 @@ export class ImageService {
     }
 
     return paginate<Image>(queryBuilder, options);
+  }
+
+  async findAllLiked(
+    options: IPaginationOptions,
+    user: User,
+  ): Promise<Pagination<ImageLike>> {
+    const queryBuilder = this.imageLikeRepo.createQueryBuilder('image_like');
+
+    queryBuilder
+      .leftJoinAndSelect('image_like.image', 'image')
+      .leftJoinAndSelect('image_like.user', 'user')
+      .where('image_like.user = :user', { user })
+      .select(['image', 'user.id'])
+      .getMany();
+
+    return paginate<ImageLike>(queryBuilder, options);
   }
 
   insert(imageData: ImageProps, user: User) {

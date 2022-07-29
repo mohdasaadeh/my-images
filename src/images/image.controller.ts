@@ -25,6 +25,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { ImageDto } from './dtos/image.dto';
 import { Image } from './image.entity';
+import { ImageLike } from './image-likes/image-like.entity';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cloudinary = require('cloudinary').v2;
@@ -62,6 +63,24 @@ export class ImageController {
         route: '/api/images',
       },
       term,
+    );
+  }
+
+  @Get('/recently-liked')
+  async fetchRecentlyLikedImages(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @CurrentUser() user: User,
+  ): Promise<Pagination<ImageLike>> {
+    limit = limit > 100 ? 100 : limit;
+
+    return this.imageService.findAllLiked(
+      {
+        page,
+        limit,
+        route: '/api/images/recently-liked',
+      },
+      user,
     );
   }
 
