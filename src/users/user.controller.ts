@@ -39,7 +39,7 @@ export class UserController {
   @Get('/current-user')
   getCurrentUser(@CurrentUser() user: UserBodyProps) {
     if (!user) {
-      return null;
+      return 'out';
     }
 
     return user;
