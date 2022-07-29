@@ -74,17 +74,17 @@ export class ImageService {
   async findAllLiked(
     options: IPaginationOptions,
     user: User,
-  ): Promise<Pagination<ImageLike>> {
-    const queryBuilder = this.imageLikeRepo.createQueryBuilder('imageLike');
+  ): Promise<Pagination<Image>> {
+    const queryBuilder = this.repo.createQueryBuilder('image');
 
     queryBuilder
-      .leftJoinAndSelect('imageLike.image', 'image')
-      .leftJoinAndSelect('imageLike.user', 'user')
-      .where('imageLike.user = :user', { user })
+      .leftJoinAndSelect('image.imageLikes', 'imageLikes')
+      .leftJoinAndSelect('imageLikes.user', 'user')
+      .where('imageLikes.user.id = :userId', { userId: user.id })
       .select(['image', 'user.id', 'user.username', 'user.image'])
       .getMany();
 
-    const result = await paginate<ImageLike>(queryBuilder, options);
+    const result = await paginate<Image>(queryBuilder, options);
 
     for (const item of result.items) {
       const imageLikes = await this.imageLikeRepo
