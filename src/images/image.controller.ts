@@ -10,8 +10,11 @@ import {
   Post,
   Put,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ImageService } from './image.service';
 import { CreateImageDto } from './dtos/create-image.dto';
@@ -22,6 +25,22 @@ import { AuthGuard } from '../guards/auth.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { ImageDto } from './dtos/image.dto';
 import { Image } from './image.entity';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const cloudinary = require('cloudinary').v2;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary.config({
+    cloud_name: 'dvvk2zgur',
+    api_key: '228619663234511',
+    api_secret: 'xIvjfnu-2ZqVhhwkyRiIjjWi8TI',
+  }),
+  params: {
+    folder: 'my-images',
+    allowedFormats: ['jpeg', 'png', 'jpg'],
+  },
+});
 
 @Controller('/api/images')
 @UseGuards(AuthGuard)
@@ -47,8 +66,13 @@ export class ImageController {
   }
 
   @Post('/new')
+  @UseInterceptors(FileInterceptor('image', { storage }))
   @Serialize(ImageDto)
-  createImage(@Body() body: CreateImageDto, @CurrentUser() user: User) {
+  createImage(
+    @Body() body: CreateImageDto,
+    @UploadedFile() image: Express.Multer.File,
+    @CurrentUser() user: User,
+  ) {
     return this.imageService.insert(body, user);
   }
 
