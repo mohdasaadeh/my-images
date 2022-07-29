@@ -1,5 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React from 'react';
 
+import Navbar from '../components/Navbar';
 import { useFetchImagesPaginated } from '../hooks';
 import { useTypedSelector } from '../hooks';
 
@@ -11,6 +12,7 @@ const Feed: React.FC = () => {
 
   return (
     <>
+      <Navbar />
       {images &&
         images.map((image, index) => {
           if (images.length === index + 1) {
