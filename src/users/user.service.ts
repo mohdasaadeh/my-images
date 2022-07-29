@@ -7,6 +7,7 @@ import { User } from './user.entity';
 export interface UserBodyProps {
   id?: number;
   email?: string;
+  username?: string;
   password?: string;
   image?: string;
 }
