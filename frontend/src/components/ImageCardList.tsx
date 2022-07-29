@@ -3,14 +3,14 @@ import { useTypedSelector } from '../hooks';
 import { useFetchImagesPaginated } from '../hooks';
 
 const ImageCardList: React.FC = () => {
-  const user = useTypedSelector(({ user }) => user.data.id);
+  const user = useTypedSelector(({ user }) => user.data);
   const images = useTypedSelector(({ images }) => images.data);
   const loading = useTypedSelector(({ images }) => images.loading);
 
   const { lastImageElementRef } = useFetchImagesPaginated<HTMLDivElement>();
 
   const renderImageCards = () => {
-    if (!images.length || !user || user === 'out') return null;
+    if (!images.length || !user.id || user.id === 'out') return null;
 
     return images.map((image, index) => {
       if (images.length === index + 1) {
@@ -20,7 +20,7 @@ const ImageCardList: React.FC = () => {
             ref={lastImageElementRef}
             className="container mx-auto px-20"
           >
-            <ImageCard image={image} />
+            <ImageCard image={image} user={user} />
           </div>
         );
       } else {
@@ -30,7 +30,7 @@ const ImageCardList: React.FC = () => {
             ref={lastImageElementRef}
             className="container mx-auto px-20"
           >
-            <ImageCard image={image} />
+            <ImageCard image={image} user={user} />
           </div>
         );
       }

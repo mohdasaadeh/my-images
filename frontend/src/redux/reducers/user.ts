@@ -4,7 +4,7 @@ import { UserActions } from '../actions';
 interface UserState {
   loading: boolean;
   data: {
-    id: string | null;
+    id: string | number | null;
   };
   error: string | null;
 }

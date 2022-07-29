@@ -3,21 +3,21 @@ import { UserActionTypes } from '../action-types';
 export interface CheckUserAction {
   type: UserActionTypes.CHECK_USER;
   payload: {
-    id: string;
+    id: string | number;
   };
 }
 
 export interface FetchUserAction {
   type: UserActionTypes.FETCH_USER;
   payload: {
-    id: string;
+    id: string | number;
   };
 }
 
 export interface CreateUserAction {
   type: UserActionTypes.CREATE_USER;
   payload: {
-    id: string;
+    id: string | number;
   };
 }
 
