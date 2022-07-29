@@ -6,5 +6,6 @@ export type Image = {
   createdAt: Date;
   editedAt: Date;
   active: boolean;
-  userId: number;
+  userId?: number;
+  user?: { id: number };
 };

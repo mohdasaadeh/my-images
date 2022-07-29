@@ -1,51 +1,23 @@
 import React from 'react';
 
 import Navbar from '../components/Navbar';
-import { useFetchImagesPaginated } from '../hooks';
-import { useTypedSelector } from '../hooks';
+import Footer from '../components/Footer';
+import ImageCardList from '../components/ImageCardList';
+import UserCard from '../components/UserCard';
+import RecentlyLikedCard from '../components/RecentlyLikedCard';
 
 const Feed: React.FC = () => {
-  const images = useTypedSelector(({ images }) => images.data);
-  const loading = useTypedSelector(({ images }) => images.loading);
-
-  const { lastImageElementRef } = useFetchImagesPaginated<HTMLDivElement>();
-
   return (
     <>
       <Navbar />
-      {images &&
-        images.map((image, index) => {
-          if (images.length === index + 1) {
-            return (
-              <div ref={lastImageElementRef} key={image.id}>
-                {image.title}
-                <div>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Officiis consequatur minus dignissimos tempore odit
-                  necessitatibus perspiciatis, sit error architecto quis
-                  obcaecati nulla ullam maxime accusamus neque exercitationem
-                  reiciendis asperiores numquam?
-                </div>
-                <hr />
-              </div>
-            );
-          } else {
-            return (
-              <div key={image.id}>
-                {image.title}
-                <div>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Officiis consequatur minus dignissimos tempore odit
-                  necessitatibus perspiciatis, sit error architecto quis
-                  obcaecati nulla ullam maxime accusamus neque exercitationem
-                  reiciendis asperiores numquam?
-                </div>
-                <hr />
-              </div>
-            );
-          }
-        })}
-      <div>{loading && 'Loading...'}</div>
+      <section>
+        <div className="container flex flex-col justify-between items-center lg:items-start px-6 py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
+          <UserCard />
+          <ImageCardList />
+          <RecentlyLikedCard />
+        </div>
+      </section>
+      <Footer />
     </>
   );
 };

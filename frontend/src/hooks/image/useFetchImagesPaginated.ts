@@ -49,7 +49,7 @@ export const useFetchImagesPaginated = <T>() => {
 
       axios
         .get('/api/images', {
-          params: { page: pageNumber, limit: 20 },
+          params: { page: pageNumber, limit: 10 },
           signal: canceller.signal,
         })
         .then((res) => {
