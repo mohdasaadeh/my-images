@@ -1,18 +1,18 @@
 import { UserActionTypes } from '../action-types';
 import { UserActions } from '../actions';
+import { User } from '../types';
 
 interface UserState {
   loading: boolean;
-  data: {
-    id: string | number | null;
-  };
+  data: User;
   error: string | null;
 }
 
 const initialState: UserState = {
   loading: false,
   data: {
-    id: null,
+    id: '',
+    username: '',
   },
   error: null,
 };
@@ -23,15 +23,31 @@ const userReducer = (
 ): UserState => {
   switch (action.type) {
     case UserActionTypes.CHECK_USER:
-      return { loading: false, data: { id: action.payload.id }, error: null };
+      return {
+        loading: false,
+        data: action.payload,
+        error: null,
+      };
     case UserActionTypes.FETCH_USER:
-      return { loading: false, data: { id: action.payload.id }, error: null };
+      return {
+        loading: false,
+        data: action.payload,
+        error: null,
+      };
     case UserActionTypes.CREATE_USER:
-      return { loading: false, data: { id: action.payload.id }, error: null };
+      return {
+        loading: false,
+        data: action.payload,
+        error: null,
+      };
     case UserActionTypes.DELETE_USER:
-      return { loading: false, data: { id: null }, error: null };
+      return { loading: false, data: { id: '', username: '' }, error: null };
     case UserActionTypes.USER_ERROR:
-      return { loading: false, data: { id: null }, error: action.payload };
+      return {
+        loading: false,
+        data: { id: '', username: '' },
+        error: action.payload,
+      };
     default:
       return state;
   }

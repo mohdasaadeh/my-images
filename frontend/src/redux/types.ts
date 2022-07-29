@@ -6,6 +6,18 @@ export type Image = {
   createdAt: Date;
   editedAt: Date;
   active: boolean;
-  userId?: number;
-  user?: { id: number };
+  user: {
+    id: number;
+    username: string;
+    image: string;
+  };
+  likes: {
+    imageLikesCount: number;
+    likedByCurrentUser: boolean;
+  };
+};
+
+export type User = {
+  id: string | number;
+  username: string;
 };

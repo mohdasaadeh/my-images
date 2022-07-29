@@ -17,7 +17,7 @@ export const useAuth = () => {
 
       dispatch({
         type: UserActionTypes.CHECK_USER,
-        payload: { id: data.id },
+        payload: { id: data.id, username: data.username },
       });
     } catch (error: any) {
       dispatch({
@@ -33,7 +33,7 @@ export const useAuth = () => {
 
       dispatch({
         type: UserActionTypes.FETCH_USER,
-        payload: { id: data.id },
+        payload: { id: data.id, username: data.username },
       });
 
       navigate('/images');
@@ -55,7 +55,7 @@ export const useAuth = () => {
 
       dispatch({
         type: UserActionTypes.CREATE_USER,
-        payload: { id: data.id },
+        payload: { id: data.id, username: data.username },
       });
 
       navigate('/images');
