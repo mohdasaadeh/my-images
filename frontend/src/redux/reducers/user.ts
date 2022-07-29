@@ -13,6 +13,7 @@ const initialState: UserState = {
   data: {
     id: '',
     username: '',
+    image: '',
   },
   error: null,
 };
@@ -41,11 +42,11 @@ const userReducer = (
         error: null,
       };
     case UserActionTypes.DELETE_USER:
-      return { loading: false, data: { id: '', username: '' }, error: null };
+      return { loading: false, data: initialState.data, error: null };
     case UserActionTypes.USER_ERROR:
       return {
         loading: false,
-        data: { id: '', username: '' },
+        data: initialState.data,
         error: action.payload,
       };
     default:

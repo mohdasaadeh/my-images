@@ -20,4 +20,5 @@ export type Image = {
 export type User = {
   id: string | number;
   username: string;
+  image: string;
 };
