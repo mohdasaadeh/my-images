@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useTypedSelector } from '../hooks';
-import { useActionCreators } from '../hooks';
+import { useAuth } from '../hooks';
 
 const Navbar: React.FC = () => {
   const user = useTypedSelector(({ user }) => user.data);
 
-  const { checkUser, deleteUser } = useActionCreators();
+  const { checkUser, deleteUser } = useAuth();
 
   useEffect(() => {
     checkUser();

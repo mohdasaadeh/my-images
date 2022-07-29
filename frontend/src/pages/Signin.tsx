@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { useActionCreators } from '../hooks';
+import { useAuth } from '../hooks';
 
 type Inputs = {
   email: string;
@@ -9,7 +9,7 @@ type Inputs = {
 };
 
 const Signin: React.FC = () => {
-  const { fetchUser } = useActionCreators();
+  const { fetchUser } = useAuth();
 
   const {
     register,
