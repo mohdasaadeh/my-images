@@ -22,13 +22,22 @@ export class ImageService {
 
   async findAllPaginated(
     options: IPaginationOptions,
+    term: string,
   ): Promise<Pagination<Image>> {
     const queryBuilder = this.repo.createQueryBuilder('image');
 
     queryBuilder
       .leftJoinAndSelect('image.user', 'user')
       .select(['image', 'user.id'])
-      .getOne();
+      .getMany();
+
+    if (term) {
+      queryBuilder
+        .where('image.title like :title', { title: `%${term}%` })
+        .orWhere('image.description like :description', {
+          description: `%${term}%`,
+        });
+    }
 
     return paginate<Image>(queryBuilder, options);
   }

@@ -32,14 +32,18 @@ export class ImageController {
   async fetchImagesPaginated(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
+    @Query('term') term: string,
   ): Promise<Pagination<Image>> {
     limit = limit > 100 ? 100 : limit;
 
-    return this.imageService.findAllPaginated({
-      page,
-      limit,
-      route: '/api/images',
-    });
+    return this.imageService.findAllPaginated(
+      {
+        page,
+        limit,
+        route: '/api/images',
+      },
+      term,
+    );
   }
 
   @Post('/new')
