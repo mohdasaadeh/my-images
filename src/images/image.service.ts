@@ -10,7 +10,7 @@ import {
 import { Image } from './image.entity';
 import { User } from '../users/user.entity';
 import { ImageLike } from './image-likes/image-like.entity';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 
 export interface ImageProps {
   title?: string;
@@ -41,6 +41,7 @@ export class ImageService {
 
     queryBuilder
       .leftJoinAndSelect('image.user', 'user')
+      .where('image.active = :active', { active: true })
       .select(['image', 'user.id', 'user.username', 'user.image'])
       .getMany();
 
@@ -89,6 +90,7 @@ export class ImageService {
       .leftJoinAndSelect('image.imageLikes', 'imageLikes')
       .leftJoinAndSelect('imageLikes.user', 'user')
       .where('imageLikes.user.id = :userId', { userId: user.id })
+      .andWhere('image.active = :active', { active: true })
       .select(['image', 'user.id', 'user.username', 'user.image'])
       .getMany();
 

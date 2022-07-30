@@ -41,6 +41,12 @@ const userReducer = (
         data: action.payload,
         error: null,
       };
+    case UserActionTypes.EDIT_USER:
+      return {
+        loading: false,
+        data: action.payload,
+        error: null,
+      };
     case UserActionTypes.DELETE_USER:
       return { loading: false, data: initialState.data, error: null };
     case UserActionTypes.USER_ERROR:

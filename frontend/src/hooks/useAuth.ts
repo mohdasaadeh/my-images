@@ -2,7 +2,12 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { UserActionTypes } from '../redux';
+import {
+  User,
+  UserActionTypes,
+  ImageActionTypes,
+  LikedImageActionTypes,
+} from '../redux';
 import { AppDispatch } from '../redux';
 
 const useAppDispatch: () => AppDispatch = useDispatch;
@@ -67,6 +72,34 @@ export const useAuth = () => {
     }
   };
 
+  const editUser = async (
+    user: User,
+    body: FormData,
+    setIsHidden: Function,
+  ) => {
+    try {
+      const { data } = await axios.patch(`/api/users/${user.id}/edit`, body);
+
+      dispatch({
+        type: UserActionTypes.CREATE_USER,
+        payload: { id: data.id, username: data.username, image: data.image },
+      });
+      dispatch({
+        type: ImageActionTypes.DELETE_IMAGES_PAGINATED,
+      });
+      dispatch({
+        type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
+      });
+
+      setIsHidden(true);
+    } catch (error: any) {
+      dispatch({
+        type: UserActionTypes.USER_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
   const deleteUser = async () => {
     try {
       await axios.post('/api/users/signout');
@@ -88,6 +121,7 @@ export const useAuth = () => {
     checkUser,
     fetchUser,
     createUser,
+    editUser,
     deleteUser,
   };
 };

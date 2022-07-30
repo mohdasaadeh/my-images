@@ -16,6 +16,11 @@ export interface CreateUserAction {
   payload: User;
 }
 
+export interface EditUserAction {
+  type: UserActionTypes.EDIT_USER;
+  payload: User;
+}
+
 export interface DeleteUserAction {
   type: UserActionTypes.DELETE_USER;
 }
@@ -29,5 +34,6 @@ export type UserActions =
   | CheckUserAction
   | FetchUserAction
   | CreateUserAction
+  | EditUserAction
   | DeleteUserAction
   | UserErrorAction;
