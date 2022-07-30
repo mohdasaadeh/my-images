@@ -97,7 +97,7 @@ const Signup: React.FC = () => {
             <div className="mt-12 text-sm font-display text-gray-700 text-center">
               You have an account?{' '}
               <Link
-                to="/users/signin"
+                to="/signin"
                 className="cursor-pointer text-info-dark hover:text-info-light"
               >
                 Sign in

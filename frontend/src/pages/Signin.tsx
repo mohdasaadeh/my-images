@@ -81,7 +81,7 @@ const Signin: React.FC = () => {
             <div className="mt-12 text-sm font-display text-gray-700 text-center">
               You don't have an account?{' '}
               <Link
-                to="/users/signup"
+                to="/signup"
                 className="cursor-pointer text-info-dark hover:text-info-light"
               >
                 Sign up
