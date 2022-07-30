@@ -36,7 +36,7 @@ export const useAuth = () => {
         payload: { id: data.id, username: data.username, image: data.image },
       });
 
-      navigate('/images');
+      navigate('/');
     } catch (error: any) {
       dispatch({
         type: UserActionTypes.USER_ERROR,
@@ -58,7 +58,7 @@ export const useAuth = () => {
         payload: { id: data.id, username: data.username, image: data.image },
       });
 
-      navigate('/images');
+      navigate('/');
     } catch (error: any) {
       dispatch({
         type: UserActionTypes.USER_ERROR,
@@ -75,7 +75,7 @@ export const useAuth = () => {
         type: UserActionTypes.DELETE_USER,
       });
 
-      navigate('/users/signin');
+      navigate('/signin');
     } catch (error: any) {
       dispatch({
         type: UserActionTypes.USER_ERROR,

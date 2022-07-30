@@ -4,8 +4,14 @@ import { useFetchLikedImagesPaginated } from '../hooks';
 
 const LikedImageCardList: React.FC = () => {
   const user = useTypedSelector(({ user }) => user.data);
-  const likedImages = useTypedSelector(({ likedImages }) => likedImages.data);
   const loading = useTypedSelector(({ likedImages }) => likedImages.loading);
+  const likedImages = useTypedSelector(({ likedImages }) => {
+    return likedImages.order
+      .sort((a, b) => b - a)
+      .map((id) => {
+        return likedImages.data.find((likedImage) => likedImage.id === id);
+      });
+  });
 
   const { lastImageElementRef } =
     useFetchLikedImagesPaginated<HTMLDivElement>();
@@ -17,7 +23,7 @@ const LikedImageCardList: React.FC = () => {
       if (likedImages.length === index + 1) {
         return (
           <div
-            key={likedImage.id}
+            key={likedImage && likedImage.id}
             ref={lastImageElementRef}
             className="container mx-auto px-20"
           >
@@ -27,7 +33,7 @@ const LikedImageCardList: React.FC = () => {
       } else {
         return (
           <div
-            key={likedImage.id}
+            key={likedImage && likedImage.id}
             ref={lastImageElementRef}
             className="container mx-auto px-20"
           >

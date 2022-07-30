@@ -11,13 +11,10 @@ const App: React.FC = () => {
   return (
     <React.Fragment>
       <Routes>
-        <Route path="/users/signin" element={<Signin />}></Route>
-        <Route path="/users/signup" element={<Signup />}></Route>
-        <Route path="/images" element={<Feed />}></Route>
-        <Route
-          path="/images/recently-liked"
-          element={<RecentlyLiked />}
-        ></Route>
+        <Route path="/signin" element={<Signin />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
+        <Route path="/" element={<Feed />}></Route>
+        <Route path="/recently-liked" element={<RecentlyLiked />}></Route>
       </Routes>
     </React.Fragment>
   );

@@ -43,7 +43,7 @@ export const useFetchImagesPaginated = <T>() => {
     const canceller = new AbortController();
 
     if (user.id && user.id === 'out') {
-      navigate('/users/signin');
+      navigate('/signin');
     } else if (user.id && user.id !== 'out') {
       dispatch({ type: ImageActionTypes.IMAGE_LOADING });
 

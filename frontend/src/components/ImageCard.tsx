@@ -1,7 +1,7 @@
 import { Image, User } from '../redux';
 
 interface ImageCardProps {
-  image: Image;
+  image: Image | undefined;
   user: User;
 }
 
@@ -13,18 +13,22 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
           <div className="flex items-center justify-start p-3">
             <div className="flex space-x-2">
               <img
-                src="./img/avatar-shanai.png"
+                src={image && image.user && image.user.image}
                 alt=""
                 className="object-cover object-center w-8 h-8 rounded-full shadow-sm bg-coolGray-500 border-coolGray-700"
               />
               <div>
-                <p className="text-sm">{image.user && image.user.id}</p>
-                <p className="text-xs mt-1 text-coolGray-100">{image.title}</p>
+                <p className="text-sm">
+                  {image && image.user && image.user.username}
+                </p>
+                <p className="text-xs mt-1 text-coolGray-100">
+                  {image && image.title}
+                </p>
               </div>
             </div>
           </div>
           <img
-            src={image.url}
+            src={image && image.url}
             alt=""
             className="object-cover object-center w-full h-72 bg-coolGray-500"
           />
@@ -51,7 +55,11 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
                   </svg>
                 </button>
                 <span className="text-sm">
-                  <span className="font-semibold">100</span>
+                  <span className="font-semibold">
+                    {image && image.likes.imageLikesCount === 0
+                      ? ''
+                      : image && image.likes.imageLikesCount}
+                  </span>
                 </span>
                 <button
                   type="button"
@@ -76,7 +84,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
                   </svg>
                 </button>
               </div>
-              {user.id && image.user && user.id === image.user.id && (
+              {image && image.user && user.id === image.user.id && (
                 <div className="flex space-x-3">
                   <button type="button" title="Edit image">
                     <svg
@@ -114,7 +122,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
               )}
             </div>
             <div className="space-y-3 mt-4">
-              <p className="text-sm">{image.description}</p>
+              <p className="text-sm">{image && image.description}</p>
             </div>
           </div>
         </div>

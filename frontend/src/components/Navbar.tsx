@@ -31,13 +31,13 @@ const Navbar: React.FC = () => {
       return (
         <>
           <Link
-            to="/users/signin"
+            to="/signin"
             className="hover:text-darkGrayishBlue transition duration-300 ease-in-out"
           >
             Sign In
           </Link>
           <Link
-            to="/users/signup"
+            to="/signup"
             className="hover:text-darkGrayishBlue transition duration-300 ease-in-out"
           >
             Sign Up
@@ -55,18 +55,12 @@ const Navbar: React.FC = () => {
             <img src="./img/logo.svg" alt="" />
           </div>
           <div className="hidden space-x-6 lg:flex">
-            <a
-              href="#"
+            <Link
+              to="/"
               className="hover:text-darkGrayishBlue transition duration-300 ease-in-out"
             >
-              My Images
-            </a>
-            <a
-              href="#"
-              className="hover:text-darkGrayishBlue transition duration-300 ease-in-out"
-            >
-              Recently Liked
-            </a>
+              Feed
+            </Link>
             <a
               href="#"
               className="hover:text-darkGrayishBlue transition duration-300 ease-in-out"
@@ -111,8 +105,8 @@ const Navbar: React.FC = () => {
           id="menu"
           className="absolute flex flex-col items-center hidden self-end py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md"
         >
-          <a href="#">My Images</a>
-          <a href="#">Login</a>
+          <a href="#">Feed</a>
+          <a href="#">Sign In</a>
           <a href="#">Search in web</a>
         </div>
       </div>

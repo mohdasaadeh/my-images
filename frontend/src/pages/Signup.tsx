@@ -7,6 +7,7 @@ type Inputs = {
   email: string;
   username: string;
   password: string;
+  image: string;
 };
 
 const Signup: React.FC = () => {
@@ -18,7 +19,12 @@ const Signup: React.FC = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => createUser(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    data.image =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMcqFkYiM95XcWYnNkAnbTqxBZVaVzaWI5CIrmsXIXsSstDkBmDFXhyisY1PQP1T38yx8&usqp=CAU';
+
+    createUser(data);
+  };
 
   return (
     <div className="lg:flex">
