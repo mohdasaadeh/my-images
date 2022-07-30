@@ -1,6 +1,7 @@
 import ImageCard from './ImageCard';
 import { useTypedSelector } from '../hooks';
 import { useFetchLikedImagesPaginated } from '../hooks';
+import { Image } from '../redux';
 
 interface LikedImageCardListProps {
   setIsDeleteImageHidden: Function;
@@ -21,7 +22,7 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
       .map((id) => {
         return likedImages.data.find((likedImage) => likedImage.id === id);
       });
-  });
+  }) as Image[];
 
   const { lastImageElementRef } =
     useFetchLikedImagesPaginated<HTMLDivElement>();

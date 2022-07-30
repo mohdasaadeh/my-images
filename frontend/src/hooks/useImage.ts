@@ -67,9 +67,33 @@ export const useImage = () => {
     }
   };
 
+  const createLike = async (image: Image) => {
+    try {
+      await axios.post(`/api/image-likes/${image.id}/new`);
+    } catch (error: any) {
+      dispatch({
+        type: ImageActionTypes.IMAGE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
+  const deleteLike = async (image: Image) => {
+    try {
+      await axios.delete(`/api/image-likes/${image.id}/delete`);
+    } catch (error: any) {
+      dispatch({
+        type: ImageActionTypes.IMAGE_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+
   return {
     createImage,
     editImage,
     deleteImage,
+    createLike,
+    deleteLike,
   };
 };
