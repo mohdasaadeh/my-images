@@ -74,6 +74,21 @@ const ImageCard: React.FC<ImageCardProps> = ({
                   type="button"
                   title="Download image"
                   className="flex items-center justify-center"
+                  onClick={async () => {
+                    if (image) {
+                      const downloadImage = await fetch(image.url);
+                      const downloadImageBlog = await downloadImage.blob();
+                      const downloadImageURL =
+                        URL.createObjectURL(downloadImageBlog);
+
+                      const link = document.createElement('a');
+                      link.href = downloadImageURL;
+                      link.download = image.title;
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }
+                  }}
                 >
                   <svg
                     className="h-5 w-5 text-black"
