@@ -8,10 +8,10 @@ import {
   Param,
   Query,
   Post,
-  Put,
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  Patch,
 } from '@nestjs/common';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -25,24 +25,6 @@ import { AuthGuard } from '../guards/auth.guard';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { ImageDto } from './dtos/image.dto';
 import { Image } from './image.entity';
-import { ImageLike } from './image-likes/image-like.entity';
-
-// // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const cloudinary = require('cloudinary').v2;
-// // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const { CloudinaryStorage } = require('multer-storage-cloudinary');
-
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary.config({
-//     cloud_name: 'dvvk2zgur',
-//     api_key: '228619663234511',
-//     api_secret: 'xIvjfnu-2ZqVhhwkyRiIjjWi8TI',
-//   }),
-//   params: {
-//     folder: 'my-images',
-//     allowedFormats: ['jpeg', 'png', 'jpg'],
-//   },
-// });
 
 @Controller('/api/images')
 @UseGuards(AuthGuard)
@@ -104,13 +86,23 @@ export class ImageController {
     return this.imageService.insert(body, user);
   }
 
-  @Put('/:id/edit')
+  @Patch('/:id/edit')
+  @UseInterceptors(FileInterceptor('image'))
   @Serialize(ImageDto)
-  editImage(
+  async editImage(
+    @UploadedFile() image: Express.Multer.File,
     @Param('id') id: string,
     @Body() body: EditImageDto,
     @CurrentUser() user: User,
   ) {
+    if (image) {
+      const uploadedImage = await this.imageService.uploadImageToCloudinary(
+        image,
+      );
+
+      body['url'] = uploadedImage.url;
+    }
+
     return this.imageService.update(parseInt(id), body, user);
   }
 

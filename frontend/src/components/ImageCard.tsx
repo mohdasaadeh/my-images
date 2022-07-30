@@ -4,14 +4,16 @@ interface ImageCardProps {
   image: Image | undefined;
   user: User;
   setIsDeleteImageHidden: Function;
-  setImageId: Function;
+  setIsEditImageHidden: Function;
+  setImage: Function;
 }
 
 const ImageCard: React.FC<ImageCardProps> = ({
   image,
   user,
   setIsDeleteImageHidden,
-  setImageId,
+  setIsEditImageHidden,
+  setImage,
 }) => {
   return (
     <div className="p-3 px-6 min-h-48 flex justify-center items-center">
@@ -93,7 +95,15 @@ const ImageCard: React.FC<ImageCardProps> = ({
               </div>
               {image && image.user && user.id === image.user.id && (
                 <div className="flex space-x-3">
-                  <button type="button" title="Edit image">
+                  <button
+                    type="button"
+                    title="Edit image"
+                    onClick={() => {
+                      setIsEditImageHidden(false);
+
+                      setImage(image);
+                    }}
+                  >
                     <svg
                       className="h-5 w-5 text-black"
                       viewBox="0 0 24 24"
@@ -115,7 +125,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
                     onClick={() => {
                       setIsDeleteImageHidden(false);
 
-                      setImageId(image.id);
+                      setImage(image);
                     }}
                   >
                     <svg

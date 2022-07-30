@@ -4,12 +4,14 @@ import { useFetchImagesPaginated } from '../hooks';
 
 interface ImageCardListProps {
   setIsDeleteImageHidden: Function;
-  setImageId: Function;
+  setIsEditImageHidden: Function;
+  setImage: Function;
 }
 
 const ImageCardList: React.FC<ImageCardListProps> = ({
   setIsDeleteImageHidden,
-  setImageId,
+  setIsEditImageHidden,
+  setImage,
 }) => {
   const user = useTypedSelector(({ user }) => user.data);
   const images = useTypedSelector(({ images }) => images.data);
@@ -32,7 +34,8 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
               image={image}
               user={user}
               setIsDeleteImageHidden={setIsDeleteImageHidden}
-              setImageId={setImageId}
+              setIsEditImageHidden={setIsEditImageHidden}
+              setImage={setImage}
             />
           </div>
         );
@@ -47,7 +50,8 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
               image={image}
               user={user}
               setIsDeleteImageHidden={setIsDeleteImageHidden}
-              setImageId={setImageId}
+              setIsEditImageHidden={setIsEditImageHidden}
+              setImage={setImage}
             />
           </div>
         );

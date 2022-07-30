@@ -7,11 +7,13 @@ import UserCard from '../components/UserCard';
 import RecentlyLikedCard from '../components/RecentlyLikedCard';
 import AddImage from '../modals/AddImage';
 import DeleteImage from '../modals/DeleteImage';
+import EditImage from '../modals/EditImage';
 
 const Feed: React.FC = () => {
   const [isAddImageHidden, setIsAddImageHidden] = useState(true);
   const [isDeleteImageHidden, setIsDeleteImageHidden] = useState(true);
-  const [imageId, setImageId] = useState(null);
+  const [isEditImageHidden, setIsEditImageHidden] = useState(true);
+  const [image, setImage] = useState(null);
 
   return (
     <>
@@ -21,18 +23,29 @@ const Feed: React.FC = () => {
           <UserCard setIsAddImageHidden={setIsAddImageHidden} />
           <ImageCardList
             setIsDeleteImageHidden={setIsDeleteImageHidden}
-            setImageId={setImageId}
+            setIsEditImageHidden={setIsEditImageHidden}
+            setImage={setImage}
           />
           <RecentlyLikedCard />
         </div>
       </section>
       <Footer />
       <AddImage isHidden={isAddImageHidden} setIsHidden={setIsAddImageHidden} />
-      <DeleteImage
-        isHidden={isDeleteImageHidden}
-        setIsHidden={setIsDeleteImageHidden}
-        imageId={imageId}
-      />
+      {image && (
+        <>
+          {' '}
+          <DeleteImage
+            isHidden={isDeleteImageHidden}
+            setIsHidden={setIsDeleteImageHidden}
+            image={image}
+          />
+          <EditImage
+            isHidden={isEditImageHidden}
+            setIsHidden={setIsEditImageHidden}
+            image={image}
+          />{' '}
+        </>
+      )}
     </>
   );
 };

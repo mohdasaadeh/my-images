@@ -4,12 +4,14 @@ import { useFetchLikedImagesPaginated } from '../hooks';
 
 interface LikedImageCardListProps {
   setIsDeleteImageHidden: Function;
-  setImageId: Function;
+  setIsEditImageHidden: Function;
+  setImage: Function;
 }
 
 const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
   setIsDeleteImageHidden,
-  setImageId,
+  setIsEditImageHidden,
+  setImage,
 }) => {
   const user = useTypedSelector(({ user }) => user.data);
   const loading = useTypedSelector(({ likedImages }) => likedImages.loading);
@@ -39,7 +41,8 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
               image={likedImage}
               user={user}
               setIsDeleteImageHidden={setIsDeleteImageHidden}
-              setImageId={setImageId}
+              setIsEditImageHidden={setIsEditImageHidden}
+              setImage={setImage}
             />
           </div>
         );
@@ -54,7 +57,8 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
               image={likedImage}
               user={user}
               setIsDeleteImageHidden={setIsDeleteImageHidden}
-              setImageId={setImageId}
+              setIsEditImageHidden={setIsEditImageHidden}
+              setImage={setImage}
             />
           </div>
         );

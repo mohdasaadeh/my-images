@@ -1,17 +1,18 @@
 import ReactDOM from 'react-dom';
 
 import { useImage } from '../hooks';
+import { Image } from '../redux';
 
 interface DeleteImageProps {
   isHidden: boolean;
   setIsHidden: Function;
-  imageId: number | null;
+  image: Image;
 }
 
 const DeleteImage: React.FC<DeleteImageProps> = ({
   isHidden,
   setIsHidden,
-  imageId,
+  image,
 }) => {
   const { deleteImage } = useImage();
 
@@ -29,8 +30,8 @@ const DeleteImage: React.FC<DeleteImageProps> = ({
         <div className="mt-8 pt-8 sm:pt-4 border-t -mx-8 px-8 flex sm:flex-row justify-between leading-relaxed">
           <button
             onClick={() => {
-              if (imageId) {
-                deleteImage(imageId, setIsHidden);
+              if (image) {
+                deleteImage(image, setIsHidden);
 
                 setIsHidden(true);
               }

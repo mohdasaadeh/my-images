@@ -55,6 +55,17 @@ const imageReducer = (
         order: state.order,
         error: null,
       };
+    case ImageActionTypes.EDIT_IMAGE:
+      return {
+        loading: false,
+        data: state.data.map((image) => {
+          if (image.id === action.payload.id) return action.payload;
+
+          return image;
+        }),
+        order: state.order,
+        error: null,
+      };
     case ImageActionTypes.DELETE_IMAGE:
       const deleteId = action.payload.id;
 

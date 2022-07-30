@@ -19,6 +19,11 @@ export interface CreateImageAction {
   payload: Image;
 }
 
+export interface EditImageAction {
+  type: ImageActionTypes.EDIT_IMAGE;
+  payload: Image;
+}
+
 export interface DeleteImageAction {
   type: ImageActionTypes.DELETE_IMAGE;
   payload: Image;
@@ -34,5 +39,6 @@ export type ImageActions =
   | FetchImagesPaginatedAction
   | DeleteImagesPaginatedAction
   | CreateImageAction
+  | EditImageAction
   | DeleteImageAction
   | ImageErrorAction;
