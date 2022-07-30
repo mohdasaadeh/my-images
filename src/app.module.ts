@@ -8,6 +8,7 @@ const cookieSession = require('cookie-session');
 
 import { UserModule } from './users/user.module';
 import { ImageModule } from './images/image.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import { User } from './users/user.entity';
 import { Image } from './images/image.entity';
 import { ImageLike } from './images/image-likes/image-like.entity';
@@ -31,6 +32,7 @@ import { ImageLike } from './images/image-likes/image-like.entity';
     }),
     UserModule,
     ImageModule,
+    CloudinaryModule,
   ],
   providers: [
     {

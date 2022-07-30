@@ -27,21 +27,22 @@ import { ImageDto } from './dtos/image.dto';
 import { Image } from './image.entity';
 import { ImageLike } from './image-likes/image-like.entity';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const cloudinary = require('cloudinary').v2;
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary.config({
-    cloud_name: 'dvvk2zgur',
-    api_key: '228619663234511',
-    api_secret: 'xIvjfnu-2ZqVhhwkyRiIjjWi8TI',
-  }),
-  params: {
-    folder: 'my-images',
-    allowedFormats: ['jpeg', 'png', 'jpg'],
-  },
-});
+// // eslint-disable-next-line @typescript-eslint/no-var-requires
+// const cloudinary = require('cloudinary').v2;
+// // eslint-disable-next-line @typescript-eslint/no-var-requires
+// const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+// const storage = new CloudinaryStorage({
+//   cloudinary: cloudinary.config({
+//     cloud_name: 'dvvk2zgur',
+//     api_key: '228619663234511',
+//     api_secret: 'xIvjfnu-2ZqVhhwkyRiIjjWi8TI',
+//   }),
+//   params: {
+//     folder: 'my-images',
+//     allowedFormats: ['jpeg', 'png', 'jpg'],
+//   },
+// });
 
 @Controller('/api/images')
 @UseGuards(AuthGuard)
@@ -87,13 +88,19 @@ export class ImageController {
   }
 
   @Post('/new')
-  @UseInterceptors(FileInterceptor('image', { storage }))
+  @UseInterceptors(FileInterceptor('image'))
   @Serialize(ImageDto)
-  createImage(
-    @Body() body: CreateImageDto,
+  async createImage(
     @UploadedFile() image: Express.Multer.File,
+    @Body() body: CreateImageDto,
     @CurrentUser() user: User,
   ) {
+    const uploadedImage = await this.imageService.uploadImageToCloudinary(
+      image,
+    );
+
+    body['url'] = uploadedImage.url;
+
     return this.imageService.insert(body, user);
   }
 
@@ -107,7 +114,7 @@ export class ImageController {
     return this.imageService.update(parseInt(id), body, user);
   }
 
-  @Delete('/:id/edit')
+  @Delete('/:id/delete')
   @Serialize(ImageDto)
   deleteImage(@Param('id') id: string, @CurrentUser() user: User) {
     return this.imageService.delete(parseInt(id), user);

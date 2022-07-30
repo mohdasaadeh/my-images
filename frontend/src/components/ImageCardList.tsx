@@ -2,7 +2,15 @@ import ImageCard from './ImageCard';
 import { useTypedSelector } from '../hooks';
 import { useFetchImagesPaginated } from '../hooks';
 
-const ImageCardList: React.FC = () => {
+interface ImageCardListProps {
+  setIsDeleteImageHidden: Function;
+  setImageId: Function;
+}
+
+const ImageCardList: React.FC<ImageCardListProps> = ({
+  setIsDeleteImageHidden,
+  setImageId,
+}) => {
   const user = useTypedSelector(({ user }) => user.data);
   const images = useTypedSelector(({ images }) => images.data);
   const loading = useTypedSelector(({ images }) => images.loading);
@@ -20,7 +28,12 @@ const ImageCardList: React.FC = () => {
             ref={lastImageElementRef}
             className="container mx-auto px-20"
           >
-            <ImageCard image={image} user={user} />
+            <ImageCard
+              image={image}
+              user={user}
+              setIsDeleteImageHidden={setIsDeleteImageHidden}
+              setImageId={setImageId}
+            />
           </div>
         );
       } else {
@@ -30,7 +43,12 @@ const ImageCardList: React.FC = () => {
             ref={lastImageElementRef}
             className="container mx-auto px-20"
           >
-            <ImageCard image={image} user={user} />
+            <ImageCard
+              image={image}
+              user={user}
+              setIsDeleteImageHidden={setIsDeleteImageHidden}
+              setImageId={setImageId}
+            />
           </div>
         );
       }

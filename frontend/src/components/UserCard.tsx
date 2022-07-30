@@ -1,6 +1,10 @@
 import { useTypedSelector } from '../hooks';
 
-const UserCard: React.FC = () => {
+interface UserCardProps {
+  setIsAddImageHidden: Function;
+}
+
+const UserCard: React.FC<UserCardProps> = ({ setIsAddImageHidden }) => {
   const user = useTypedSelector(({ user }) => user.data);
 
   return (
@@ -28,6 +32,7 @@ const UserCard: React.FC = () => {
             <button
               className="bg-secondary py-2 px-4 hover:bg-primary text-primary hover:text-secondary 
                   w-full rounded-lg shadow-lg transition duration-700 ease-in-out"
+              onClick={() => setIsAddImageHidden(false)}
             >
               Post Image
             </button>

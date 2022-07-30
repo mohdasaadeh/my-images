@@ -7,6 +7,5 @@ export class CreateImageDto {
   @IsString()
   description: string;
 
-  @IsString()
-  url: string;
+  // image: File;
 }

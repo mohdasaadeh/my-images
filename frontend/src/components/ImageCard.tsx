@@ -3,9 +3,16 @@ import { Image, User } from '../redux';
 interface ImageCardProps {
   image: Image | undefined;
   user: User;
+  setIsDeleteImageHidden: Function;
+  setImageId: Function;
 }
 
-const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
+const ImageCard: React.FC<ImageCardProps> = ({
+  image,
+  user,
+  setIsDeleteImageHidden,
+  setImageId,
+}) => {
   return (
     <div className="p-3 px-6 min-h-48 flex justify-center items-center">
       <div>
@@ -102,7 +109,15 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, user }) => {
                       <line x1="16" y1="5" x2="19" y2="8" />
                     </svg>
                   </button>
-                  <button type="button" title="Delete image">
+                  <button
+                    type="button"
+                    title="Delete image"
+                    onClick={() => {
+                      setIsDeleteImageHidden(false);
+
+                      setImageId(image.id);
+                    }}
+                  >
                     <svg
                       className="h-5 w-5 text-black"
                       viewBox="0 0 24 24"

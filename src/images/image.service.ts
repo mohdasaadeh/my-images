@@ -10,6 +10,7 @@ import {
 import { Image } from './image.entity';
 import { User } from '../users/user.entity';
 import { ImageLike } from './image-likes/image-like.entity';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 export interface ImageProps {
   title?: string;
@@ -22,7 +23,14 @@ export class ImageService {
   constructor(
     @InjectRepository(Image) private repo: Repository<Image>,
     @InjectRepository(ImageLike) private imageLikeRepo: Repository<ImageLike>,
+    private cloudinary: CloudinaryService,
   ) {}
+
+  async uploadImageToCloudinary(file: Express.Multer.File) {
+    return await this.cloudinary.uploadImage(file).catch(() => {
+      throw new BadRequestException('Invalid file type.');
+    });
+  }
 
   async findAllPaginated(
     options: IPaginationOptions,

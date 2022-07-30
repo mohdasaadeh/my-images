@@ -46,8 +46,8 @@ const imageReducer = (
         error: null,
       };
     case ImageActionTypes.CREATE_IMAGE:
-      state.data.push(action.payload);
-      state.order.push(action.payload.id);
+      state.data.unshift(action.payload);
+      state.order.unshift(action.payload.id);
 
       return {
         loading: false,
