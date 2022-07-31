@@ -11,14 +11,14 @@ export const useImage = () => {
 
   const createImage = async (body: FormData, setIsHidden: Function) => {
     try {
+      setIsHidden(true);
+
       const { data } = await axios.post('/api/images/new', body);
 
       dispatch({
         type: ImageActionTypes.CREATE_IMAGE,
         payload: data,
       });
-
-      setIsHidden(true);
     } catch (error: any) {
       dispatch({
         type: ImageActionTypes.IMAGE_ERROR,
@@ -33,14 +33,14 @@ export const useImage = () => {
     setIsHidden: Function,
   ) => {
     try {
+      setIsHidden(true);
+
       const { data } = await axios.patch(`/api/images/${image.id}/edit`, body);
 
       dispatch({
         type: ImageActionTypes.EDIT_IMAGE,
         payload: data,
       });
-
-      setIsHidden(true);
     } catch (error: any) {
       dispatch({
         type: ImageActionTypes.IMAGE_ERROR,
@@ -51,14 +51,14 @@ export const useImage = () => {
 
   const deleteImage = async (image: Image, setIsHidden: Function) => {
     try {
+      setIsHidden(true);
+
       const { data } = await axios.delete(`/api/images/${image.id}/delete`);
 
       dispatch({
         type: ImageActionTypes.DELETE_IMAGE,
         payload: data,
       });
-
-      setIsHidden(true);
     } catch (error: any) {
       dispatch({
         type: ImageActionTypes.IMAGE_ERROR,

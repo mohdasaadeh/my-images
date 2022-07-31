@@ -78,6 +78,8 @@ export const useAuth = () => {
     setIsHidden: Function,
   ) => {
     try {
+      setIsHidden(true);
+
       const { data } = await axios.patch(`/api/users/${user.id}/edit`, body);
 
       dispatch({
@@ -90,8 +92,6 @@ export const useAuth = () => {
       dispatch({
         type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
       });
-
-      setIsHidden(true);
     } catch (error: any) {
       dispatch({
         type: UserActionTypes.USER_ERROR,
