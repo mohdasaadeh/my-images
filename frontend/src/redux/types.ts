@@ -14,6 +14,7 @@ export type Image = {
   likes: {
     imageLikesCount: number;
     likedByCurrentUser: boolean;
+    currentUserLikeDate: number;
   };
 };
 

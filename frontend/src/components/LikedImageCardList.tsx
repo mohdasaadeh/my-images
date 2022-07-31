@@ -19,8 +19,10 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
   const likedImages = useTypedSelector(({ likedImages }) => {
     return likedImages.order
       .sort((a, b) => b - a)
-      .map((id) => {
-        return likedImages.data.find((likedImage) => likedImage.id === id);
+      .map((likeDate) => {
+        return likedImages.data.find(
+          (likedImage) => likedImage.likes.currentUserLikeDate === likeDate,
+        );
       });
   }) as Image[];
 

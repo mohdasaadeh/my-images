@@ -50,6 +50,7 @@ export class ImageLikeService {
 
     imageLike.image = image;
     imageLike.user = user;
+    imageLike.createdAt = Date.now();
 
     return this.imageLikeRepo.save(imageLike);
   }

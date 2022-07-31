@@ -5,6 +5,9 @@ export class ImageLikeDto {
   id: number;
 
   @Expose()
+  createdAt: Date;
+
+  @Expose()
   @Transform(({ obj }) => obj.image.id)
   imageId: number;
 

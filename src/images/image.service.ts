@@ -72,6 +72,7 @@ export class ImageService {
 
       if (likedByCurrentUser) {
         item['likes']['likedByCurrentUser'] = true;
+        item['likes']['currentUserLikeDate'] = likedByCurrentUser.createdAt;
       } else {
         item['likes']['likedByCurrentUser'] = false;
       }
@@ -87,8 +88,9 @@ export class ImageService {
     const queryBuilder = this.repo.createQueryBuilder('image');
 
     queryBuilder
+      .leftJoinAndSelect('image.user', 'user')
       .leftJoinAndSelect('image.imageLikes', 'imageLikes')
-      .leftJoinAndSelect('imageLikes.user', 'user')
+      .leftJoinAndSelect('imageLikes.user', 'likeUser')
       .where('imageLikes.user.id = :userId', { userId: user.id })
       .andWhere('image.active = :active', { active: true })
       .select(['image', 'user.id', 'user.username', 'user.image'])
@@ -113,6 +115,7 @@ export class ImageService {
 
       if (likedByCurrentUser) {
         item['likes']['likedByCurrentUser'] = true;
+        item['likes']['currentUserLikeDate'] = likedByCurrentUser.createdAt;
       } else {
         item['likes']['likedByCurrentUser'] = false;
       }
@@ -144,7 +147,31 @@ export class ImageService {
 
     Object.assign(image, imageData);
 
-    return this.repo.save(image);
+    const result = await this.repo.save(image);
+
+    const imageLikes = await this.imageLikeRepo
+      .createQueryBuilder('imageLike')
+      .select('COUNT(imageLike.image)', 'imageLikesCount')
+      .where('imageLike.image = :imageId', { imageId: result.id })
+      .getRawOne();
+
+    result['likes'] = imageLikes;
+
+    const likedByCurrentUser = await this.imageLikeRepo
+      .createQueryBuilder('imageLike')
+      .where('imageLike.image = :imageId', { imageId: result.id })
+      .andWhere('imageLike.user = :userId', { userId: user.id })
+      .getOne();
+
+    if (likedByCurrentUser) {
+      result['likes']['likedByCurrentUser'] = true;
+    } else {
+      result['likes']['likedByCurrentUser'] = false;
+    }
+
+    result['likes']['currentUserLikeDate'] = likedByCurrentUser.createdAt;
+
+    return result;
   }
 
   async delete(id: number, user: User) {

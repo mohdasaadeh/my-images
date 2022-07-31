@@ -3,15 +3,18 @@ import { Link } from 'react-router-dom';
 
 import { useTypedSelector } from '../hooks';
 import { useFetchLikedImagesPaginated } from '../hooks';
+import { Image } from '../redux';
 
 const RecentlyLikedCard: React.FC = () => {
   const likedImages = useTypedSelector(({ likedImages }) => {
     return likedImages.order
       .sort((a, b) => b - a)
-      .map((id) => {
-        return likedImages.data.find((likedImage) => likedImage.id === id);
+      .map((likeDate) => {
+        return likedImages.data.find(
+          (likedImage) => likedImage.likes.currentUserLikeDate === likeDate,
+        );
       });
-  });
+  }) as Image[];
 
   useFetchLikedImagesPaginated<HTMLDivElement>();
 

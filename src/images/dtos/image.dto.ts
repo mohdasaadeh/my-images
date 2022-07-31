@@ -35,14 +35,22 @@ export class ImageDto {
   };
 
   @Expose()
-  @Transform(() => {
-    return {
-      imageLikesCount: 0,
-      likedByCurrentUser: false,
-    };
+  @Transform(({ obj }) => {
+    if (!obj.likes) {
+      return {
+        imageLikesCount: 0,
+        likedByCurrentUser: false,
+      };
+    }
+
+    const { imageLikesCount, likedByCurrentUser, currentUserLikeDate } =
+      obj.likes;
+
+    return { imageLikesCount, likedByCurrentUser, currentUserLikeDate };
   })
   likes: {
     imageLikesCount: number;
     likedByCurrentUser: boolean;
+    currentUserLikeDate: number;
   };
 }

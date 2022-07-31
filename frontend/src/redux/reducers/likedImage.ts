@@ -29,7 +29,9 @@ const likedImageReducer = (
         error: null,
       };
     case LikedImageActionTypes.FETCH_LIKED_IMAGES_PAGINATED:
-      const fetchPaginatedOrder = action.payload.map((item) => item.id);
+      const fetchPaginatedOrder = action.payload.map(
+        (item) => item.likes.currentUserLikeDate,
+      );
 
       return {
         loading: false,
@@ -46,8 +48,8 @@ const likedImageReducer = (
         error: null,
       };
     case LikedImageActionTypes.CREATE_LIKED_IMAGE:
-      state.data.push(action.payload);
-      state.order.push(action.payload.id);
+      state.data.unshift(action.payload);
+      state.order.unshift(action.payload.likes.currentUserLikeDate);
 
       return {
         loading: false,
@@ -59,7 +61,9 @@ const likedImageReducer = (
       const deleteId = action.payload.id;
 
       const deleteData = state.data.filter((item) => item.id !== deleteId);
-      const deleteOrder = state.order.filter((item) => item !== deleteId);
+      const deleteOrder = state.order.filter(
+        (item) => item !== action.payload.likes.currentUserLikeDate,
+      );
 
       return {
         loading: false,

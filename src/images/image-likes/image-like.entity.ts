@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { User } from '../../users/user.entity';
 import { Image } from '../image.entity';
 
@@ -6,6 +6,9 @@ import { Image } from '../image.entity';
 export class ImageLike {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ default: Date.now() })
+  createdAt: number;
 
   @ManyToOne(() => Image, (image) => image.imageLikes)
   image: Image;
