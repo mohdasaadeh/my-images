@@ -1,7 +1,15 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useImage } from '../hooks';
+
+let modalRoot = document.getElementById('modal-root');
+if (!modalRoot) {
+  modalRoot = document.createElement('div');
+  modalRoot.setAttribute('id', 'modal-root');
+  document.body.appendChild(modalRoot);
+}
 
 type Inputs = {
   title: string;
@@ -23,6 +31,15 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const el = React.useRef(document.createElement('div'));
+  React.useLayoutEffect(() => {
+    const currentEl = el.current;
+    modalRoot!.appendChild(currentEl);
+    return () => {
+      modalRoot!.removeChild(currentEl);
+    };
+  }, []);
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const formData = new FormData();
 
@@ -38,6 +55,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
       className={`${
         isHidden && 'hidden'
       } treact-popup fixed inset-0 flex items-center justify-center bg-info-background`}
+      data-testid="show-profile-edit"
     >
       <div className="max-w-lg p-8 sm:pb-4 bg-white rounded shadow-lg text-center sm:text-left">
         <h3 className="text-xl sm:text-2xl font-semibold mb-6 justify-center flex flex-col sm:flex-row items-center">
@@ -114,7 +132,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
         </div>
       </div>
     </div>,
-    document.getElementById('modal')!,
+    el.current,
   );
 };
 
