@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { NavigateFunction } from 'react-router-dom';
 
-import { UserActionTypes } from '../redux';
+import { AppDispatch, UserActionTypes } from '../../redux';
 
 export const createUser = async (
   body: {
@@ -8,10 +9,9 @@ export const createUser = async (
     email: string;
     password: string;
   },
-  dispatch: any,
-  navigate: any,
+  dispatch: AppDispatch,
+  navigate: NavigateFunction,
 ) => {
-  console.log(body);
   try {
     const { data } = await axios.post('/api/users/signup', body);
 

@@ -1,8 +1,10 @@
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../hooks';
-import { User } from '../redux';
+import { User, AppDispatch } from '../redux';
 
 type Inputs = {
   username: string;
@@ -16,6 +18,11 @@ interface EditUserProps {
 }
 
 const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
+  const useAppDispatch: () => AppDispatch = useDispatch;
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { editUser } = useAuth();
 
   const {
@@ -34,7 +41,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
     formData.append('username', data.username);
     if (data.image[0]) formData.append('image', data.image[0]);
 
-    editUser(user, formData, setIsHidden);
+    editUser(user, formData, setIsHidden, dispatch, navigate);
   };
 
   return ReactDOM.createPortal(

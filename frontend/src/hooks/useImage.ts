@@ -3,29 +3,30 @@ import axios from 'axios';
 
 import { Image, ImageActionTypes } from '../redux';
 import { AppDispatch } from '../redux';
+import { createImage } from '../api';
 
 const useAppDispatch: () => AppDispatch = useDispatch;
 
 export const useImage = () => {
   const dispatch = useAppDispatch();
 
-  const createImage = async (body: FormData, setIsHidden: Function) => {
-    try {
-      setIsHidden(true);
+  // const createImage = async (body: FormData, setIsHidden: Function) => {
+  //   try {
+  //     setIsHidden(true);
 
-      const { data } = await axios.post('/api/images/new', body);
+  //     const { data } = await axios.post('/api/images/new', body);
 
-      dispatch({
-        type: ImageActionTypes.CREATE_IMAGE,
-        payload: data,
-      });
-    } catch (error: any) {
-      dispatch({
-        type: ImageActionTypes.IMAGE_ERROR,
-        payload: error.message,
-      });
-    }
-  };
+  //     dispatch({
+  //       type: ImageActionTypes.CREATE_IMAGE,
+  //       payload: data,
+  //     });
+  //   } catch (error: any) {
+  //     dispatch({
+  //       type: ImageActionTypes.IMAGE_ERROR,
+  //       payload: error.message,
+  //     });
+  //   }
+  // };
 
   const editImage = async (
     image: Image,

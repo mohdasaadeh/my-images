@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { useImage } from '../hooks';
+import { AppDispatch } from '../redux';
 
 let modalRoot = document.getElementById('modal-root');
 if (!modalRoot) {
@@ -23,6 +25,10 @@ interface AddImageProps {
 }
 
 const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
+  const useAppDispatch: () => AppDispatch = useDispatch;
+
+  const dispatch = useAppDispatch();
+
   const { createImage } = useImage();
 
   const {
@@ -47,7 +53,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
     formData.append('image', data.image[0]);
     formData.append('description', data.description);
 
-    createImage(formData, setIsHidden);
+    createImage(formData, setIsHidden, dispatch);
   };
 
   return ReactDOM.createPortal(
@@ -55,7 +61,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
       className={`${
         isHidden && 'hidden'
       } treact-popup fixed inset-0 flex items-center justify-center bg-info-background`}
-      data-testid="show-profile-edit"
+      data-testid="show-image-add"
     >
       <div className="max-w-lg p-8 sm:pb-4 bg-white rounded shadow-lg text-center sm:text-left">
         <h3 className="text-xl sm:text-2xl font-semibold mb-6 justify-center flex flex-col sm:flex-row items-center">
@@ -72,6 +78,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
                 Title
               </div>
               <input
+                data-testid="image-add-title"
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-info-dark"
                 type="title"
                 placeholder="Title"
@@ -84,6 +91,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
             <div className="w-full">
               <label className="block mt-4">
                 <input
+                  data-testid="image-add-file"
                   type="file"
                   className="block w-full text-sm text-secondary file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-info-light file:text-primary hover:file:text-secondary hover:file:bg-info-background file:transition file:duration-700 ease-in-out"
                   {...register('image', { required: true })}
@@ -102,6 +110,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
                   Description
                 </label>
                 <textarea
+                  data-testid="image-add-description"
                   id="message"
                   rows={6}
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -115,6 +124,7 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
             </div>
             <div className="mt-8 pt-8 sm:pt-4 border-t -mx-8 px-8 flex flex-col sm:flex-row justify-end leading-relaxed">
               <button
+                data-testid="image-add-submit"
                 type="submit"
                 className="mx-4 px-6 py-2 text-white rounded-full bg-secondary hover:bg-primary hover:text-secondary focus:outline-none transition duration-700 ease-in-out border border-slate-400 border-secondary mt-2"
               >

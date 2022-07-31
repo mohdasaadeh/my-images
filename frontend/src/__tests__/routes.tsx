@@ -33,7 +33,7 @@ describe('Routes and Components Mounting', () => {
 
     const { getByTestId } = within(document.getElementById('modal-root')!);
 
-    expect(getByTestId('show-profile-edit')).toBeInTheDocument();
+    expect(getByTestId('show-image-add')).toBeInTheDocument();
   });
 
   test('Recently liked page mounts with all components', () => {

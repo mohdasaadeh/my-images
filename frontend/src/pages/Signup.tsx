@@ -1,7 +1,9 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 
 import { useAuth } from '../hooks';
+import { AppDispatch } from '../redux';
 
 type Inputs = {
   email: string;
@@ -11,6 +13,11 @@ type Inputs = {
 };
 
 const Signup: React.FC = () => {
+  const useAppDispatch: () => AppDispatch = useDispatch;
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { createUser } = useAuth();
 
   const {
@@ -23,7 +30,7 @@ const Signup: React.FC = () => {
     data.image =
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMcqFkYiM95XcWYnNkAnbTqxBZVaVzaWI5CIrmsXIXsSstDkBmDFXhyisY1PQP1T38yx8&usqp=CAU';
 
-    createUser(data);
+    createUser(data, dispatch, navigate);
   };
 
   return (
