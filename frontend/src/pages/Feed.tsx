@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import ImageCardList from '../components/ImageCardList';
 import UserCard from '../components/UserCard';
@@ -9,7 +8,11 @@ import AddImage from '../modals/AddImage';
 import DeleteImage from '../modals/DeleteImage';
 import EditImage from '../modals/EditImage';
 
-const Feed: React.FC = () => {
+interface FeedProps {
+  searchTerm: string;
+}
+
+const Feed: React.FC<FeedProps> = ({ searchTerm }) => {
   const [isAddImageHidden, setIsAddImageHidden] = useState(true);
   const [isDeleteImageHidden, setIsDeleteImageHidden] = useState(true);
   const [isEditImageHidden, setIsEditImageHidden] = useState(true);
@@ -17,7 +20,6 @@ const Feed: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <section>
         <div className="container flex flex-col justify-between items-center lg:items-start px-6 py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
           <UserCard setIsAddImageHidden={setIsAddImageHidden} />
@@ -25,6 +27,7 @@ const Feed: React.FC = () => {
             setIsDeleteImageHidden={setIsDeleteImageHidden}
             setIsEditImageHidden={setIsEditImageHidden}
             setImage={setImage}
+            searchTerm={searchTerm}
           />
           <RecentlyLikedCard />
         </div>

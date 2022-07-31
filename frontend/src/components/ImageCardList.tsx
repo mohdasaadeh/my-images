@@ -7,12 +7,14 @@ interface ImageCardListProps {
   setIsDeleteImageHidden: Function;
   setIsEditImageHidden: Function;
   setImage: Function;
+  searchTerm: string;
 }
 
 const ImageCardList: React.FC<ImageCardListProps> = ({
   setIsDeleteImageHidden,
   setIsEditImageHidden,
   setImage,
+  searchTerm,
 }) => {
   const user = useTypedSelector(({ user }) => user.data);
   const loading = useTypedSelector(({ images }) => images.loading);
@@ -24,7 +26,8 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
       });
   }) as Image[];
 
-  const { lastImageElementRef } = useFetchImagesPaginated<HTMLDivElement>();
+  const { lastImageElementRef } =
+    useFetchImagesPaginated<HTMLDivElement>(searchTerm);
 
   const renderImageCards = () => {
     if (!images.length || !user.id || user.id === 'out') return null;

@@ -1,10 +1,23 @@
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
-import { useTypedSelector } from '../hooks';
-import { useAuth } from '../hooks';
+import { useTypedSelector, useAuth } from '../hooks';
+import { ImageActionTypes, AppDispatch } from '../redux';
 
-const Navbar: React.FC = () => {
+const useAppDispatch: () => AppDispatch = useDispatch;
+
+interface NavbarProps {
+  setSearchTerm: Function;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
+  const inputRef = useRef<any>();
+
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
   const user = useTypedSelector(({ user }) => user.data);
 
   const { checkUser, deleteUser } = useAuth();
@@ -70,22 +83,30 @@ const Navbar: React.FC = () => {
             {renderAuth()}
           </div>
 
-          <form>
-            <div className="hidden flex lg:flex space-x-3">
-              <input
-                type="text"
-                className="flex-1 px-4 rounded-full bg-white focus:outline-none"
-                placeholder="Search for images..."
-              />
-              <button
-                className="px-6 py-2 text-white rounded-full bg-secondary hover:bg-primary 
+          <div className="hidden flex lg:flex space-x-3">
+            <input
+              type="text"
+              className="flex-1 px-4 rounded-full bg-white focus:outline-none"
+              placeholder="Search for images..."
+              ref={inputRef}
+            />
+            <button
+              className="px-6 py-2 text-white rounded-full bg-secondary hover:bg-primary 
               hover:text-secondary transition duration-700 ease-in-out 
               border border-slate-400 border-secondary"
-              >
-                Search
-              </button>
-            </div>
-          </form>
+              onClick={() => {
+                navigate('/');
+
+                setSearchTerm(inputRef.current.value);
+
+                dispatch({
+                  type: ImageActionTypes.DELETE_IMAGES_PAGINATED,
+                });
+              }}
+            >
+              Search
+            </button>
+          </div>
         </div>
 
         <div className="flex justify-end ">
