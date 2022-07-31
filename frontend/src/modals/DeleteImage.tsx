@@ -1,7 +1,10 @@
 import ReactDOM from 'react-dom';
+import { useDispatch } from 'react-redux';
 
+import { Image, AppDispatch, LikedImageActionTypes } from '../redux';
 import { useImage } from '../hooks';
-import { Image } from '../redux';
+
+const useAppDispatch: () => AppDispatch = useDispatch;
 
 interface DeleteImageProps {
   isHidden: boolean;
@@ -14,6 +17,8 @@ const DeleteImage: React.FC<DeleteImageProps> = ({
   setIsHidden,
   image,
 }) => {
+  const dispatch = useAppDispatch();
+
   const { deleteImage } = useImage();
 
   return ReactDOM.createPortal(
@@ -32,6 +37,11 @@ const DeleteImage: React.FC<DeleteImageProps> = ({
             onClick={() => {
               if (image) {
                 deleteImage(image, setIsHidden);
+
+                dispatch({
+                  type: LikedImageActionTypes.DELETE_LIKED_IMAGE,
+                  payload: image,
+                });
 
                 setIsHidden(true);
               }
