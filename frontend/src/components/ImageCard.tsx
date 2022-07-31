@@ -33,7 +33,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
       return (
         <button
           type="button"
-          title="Like image"
+          title="Dislike image"
           className="flex items-center justify-center"
           onClick={() => {
             setIsLiked(!isLiked);
