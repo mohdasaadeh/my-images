@@ -8,18 +8,18 @@ export const deleteImage = async (
   dispatch: AppDispatch,
 ) => {
   try {
-    setIsHidden(true);
-
     const { data } = await axios.delete(`/api/images/${image.id}/delete`);
 
     dispatch({
       type: ImageActionTypes.DELETE_IMAGE,
       payload: data,
     });
+
+    setIsHidden(true);
   } catch (error: any) {
     dispatch({
       type: ImageActionTypes.IMAGE_ERROR,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };

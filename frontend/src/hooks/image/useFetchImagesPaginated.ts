@@ -61,7 +61,11 @@ export const useFetchImagesPaginated = <T>(term: { value: string }) => {
           setHasMore(res.data.links.next);
         })
         .catch((error) => {
-          dispatch({ type: ImageActionTypes.IMAGE_ERROR, payload: error });
+          if (error.name !== 'CanceledError')
+            dispatch({
+              type: ImageActionTypes.IMAGE_ERROR,
+              payload: error.response.data.message,
+            });
         });
     }
 

@@ -61,10 +61,11 @@ export const useFetchLikedImagesPaginated = <T>() => {
           setHasMore(res.data.links.next);
         })
         .catch((error) => {
-          dispatch({
-            type: LikedImageActionTypes.LIKED_IMAGE_ERROR,
-            payload: error,
-          });
+          if (error.name !== 'CanceledError')
+            dispatch({
+              type: LikedImageActionTypes.LIKED_IMAGE_ERROR,
+              payload: error.response.data.message,
+            });
         });
     }
 

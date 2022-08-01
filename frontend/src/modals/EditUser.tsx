@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useTypedSelector } from '../hooks';
 import { User } from '../redux';
 import { editUser } from '../api';
+import ErrorBanner from '../components/ErrorBanner';
 
 type Inputs = {
   username: string;
@@ -19,7 +19,8 @@ interface EditUserProps {
 
 const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+
+  const error = useTypedSelector(({ user }) => user.error);
 
   const {
     register,
@@ -37,7 +38,7 @@ const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
     formData.append('username', data.username);
     if (data.image[0]) formData.append('image', data.image[0]);
 
-    editUser(user, formData, setIsHidden, dispatch, navigate);
+    editUser(user, formData, setIsHidden, dispatch);
   };
 
   return ReactDOM.createPortal(
@@ -50,6 +51,11 @@ const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
         <h3 className="text-xl sm:text-2xl font-semibold mb-6 justify-center flex flex-col sm:flex-row items-center">
           Edit Profile
         </h3>
+        {error && (
+          <div className="my-4">
+            <ErrorBanner error={error} />
+          </div>
+        )}
         <div>
           <form
             className="flex flex-col items-center space-x-6"
@@ -69,7 +75,10 @@ const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
                 <span className="text-red-600">This field is required</span>
               )}
             </div>
-            <div className="w-full">
+            <div className="w-full p-4">
+              <div className="mt-2 text-sm font-bold text-gray-700 tracking-wide">
+                Picture
+              </div>
               <label className="block mt-4">
                 <input
                   type="file"

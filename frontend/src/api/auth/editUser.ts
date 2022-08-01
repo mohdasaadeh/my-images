@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { NavigateFunction } from 'react-router-dom';
 
 import {
   UserActionTypes,
@@ -14,11 +13,8 @@ export const editUser = async (
   body: FormData,
   setIsHidden: Function,
   dispatch: AppDispatch,
-  navigate: NavigateFunction,
 ) => {
   try {
-    setIsHidden(true);
-
     const { data } = await axios.patch(`/api/users/${user.id}/edit`, body);
 
     dispatch({
@@ -31,10 +27,12 @@ export const editUser = async (
     dispatch({
       type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
     });
+
+    setIsHidden(true);
   } catch (error: any) {
     dispatch({
       type: UserActionTypes.USER_ERROR,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };

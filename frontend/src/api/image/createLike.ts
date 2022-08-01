@@ -8,7 +8,7 @@ export const createLike = async (image: Image, dispatch: AppDispatch) => {
   } catch (error: any) {
     dispatch({
       type: ImageActionTypes.IMAGE_ERROR,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };

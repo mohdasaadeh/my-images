@@ -20,7 +20,7 @@ export const fetchUser = async (
   } catch (error: any) {
     dispatch({
       type: UserActionTypes.USER_ERROR,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };

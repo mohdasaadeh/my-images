@@ -2,6 +2,7 @@ import ImageCard from './ImageCard';
 import { useTypedSelector } from '../hooks';
 import { useFetchImagesPaginated } from '../hooks';
 import { Image } from '../redux';
+import ErrorBanner from './ErrorBanner';
 
 interface ImageCardListProps {
   setIsDeleteImageHidden: Function;
@@ -25,9 +26,22 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
         return images.data.find((likedImage) => likedImage.id === id);
       });
   }) as Image[];
+  const error = useTypedSelector(({ images }) => images.error);
 
   const { lastImageElementRef } =
     useFetchImagesPaginated<HTMLDivElement>(searchTerm);
+
+  const renderError = () => {
+    if (!error) return null;
+
+    window.scrollTo(0, 0);
+
+    return (
+      <div className="my-4">
+        <ErrorBanner error={error} />
+      </div>
+    );
+  };
 
   const renderImageCards = () => {
     if (!images.length || !user.id || user.id === 'out') return null;
@@ -71,7 +85,8 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
 
   return (
     <div className="flex justify-around bg-primary">
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-10">
+        {renderError()}
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
           <div className="flex flex-col justify-center text-6xl rounded-xl p-6">
             {renderImageCards()}

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { createImage } from '../api';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useTypedSelector } from '../hooks';
+import ErrorBanner from '../components/ErrorBanner';
 
 let modalRoot = document.getElementById('modal-root');
 if (!modalRoot) {
@@ -25,6 +26,8 @@ interface AddImageProps {
 
 const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
   const dispatch = useAppDispatch();
+
+  const error = useTypedSelector(({ images }) => images.error);
 
   const {
     register,
@@ -62,6 +65,11 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
         <h3 className="text-xl sm:text-2xl font-semibold mb-6 justify-center flex flex-col sm:flex-row items-center">
           Add Image
         </h3>
+        {error && (
+          <div className="my-4">
+            <ErrorBanner error={error} />
+          </div>
+        )}
         <div>
           <form
             className="flex flex-col items-center space-x-6"
@@ -83,7 +91,10 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
                 <span className="text-red-600">This field is required</span>
               )}
             </div>
-            <div className="w-full">
+            <div className="w-full p-4">
+              <div className="mt-2 text-sm font-bold text-gray-700 tracking-wide">
+                Image
+              </div>
               <label className="block mt-4">
                 <input
                   data-testid="image-add-file"

@@ -8,18 +8,18 @@ export const createImage = async (
   dispatch: AppDispatch,
 ) => {
   try {
-    setIsHidden(true);
-
     const { data } = await axios.post('/api/images/new', body);
 
     dispatch({
       type: ImageActionTypes.CREATE_IMAGE,
       payload: data,
     });
+
+    setIsHidden(true);
   } catch (error: any) {
     dispatch({
       type: ImageActionTypes.IMAGE_ERROR,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };

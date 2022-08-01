@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useTypedSelector } from '../hooks';
 import { createUser } from '../api';
+import ErrorBanner from '../components/ErrorBanner';
 
 type Inputs = {
   email: string;
@@ -14,6 +15,8 @@ type Inputs = {
 const Signup: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const error = useTypedSelector(({ user }) => user.error);
 
   const {
     register,
@@ -42,6 +45,11 @@ const Signup: React.FC = () => {
           <h2 className="text-center text-4xl text-info-dark font-display lg:text-left xl:text-4xl xl:text-bold">
             Sign Up
           </h2>
+          {error && (
+            <div className="mt-4">
+              <ErrorBanner error={error} />
+            </div>
+          )}
           <div className="mt-12">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>

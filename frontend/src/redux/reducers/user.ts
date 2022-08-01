@@ -52,7 +52,7 @@ const userReducer = (
     case UserActionTypes.USER_ERROR:
       return {
         loading: false,
-        data: initialState.data,
+        data: state.data,
         error: action.payload,
       };
     default:

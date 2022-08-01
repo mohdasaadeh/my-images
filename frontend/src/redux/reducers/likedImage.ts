@@ -72,7 +72,12 @@ const likedImageReducer = (
         error: null,
       };
     case LikedImageActionTypes.LIKED_IMAGE_ERROR:
-      return { loading: false, data: [], order: [], error: action.payload };
+      return {
+        loading: false,
+        data: state.data,
+        order: state.order,
+        error: action.payload,
+      };
     default:
       return state;
   }

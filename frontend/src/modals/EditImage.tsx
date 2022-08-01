@@ -3,7 +3,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { editImage } from '../api';
 import { Image } from '../redux';
-import { useAppDispatch } from '../hooks';
+import { useAppDispatch, useTypedSelector } from '../hooks';
+import ErrorBanner from '../components/ErrorBanner';
 
 type Inputs = {
   title: string;
@@ -23,6 +24,8 @@ const EditImage: React.FC<EditImageProps> = ({
   setIsHidden,
 }) => {
   const dispatch = useAppDispatch();
+
+  const error = useTypedSelector(({ images }) => images.error);
 
   const {
     register,
@@ -55,6 +58,11 @@ const EditImage: React.FC<EditImageProps> = ({
         <h3 className="text-xl sm:text-2xl font-semibold mb-6 justify-center flex flex-col sm:flex-row items-center">
           Edit Image
         </h3>
+        {error && (
+          <div className="my-4">
+            <ErrorBanner error={error} />
+          </div>
+        )}
         <div>
           <form
             className="flex flex-col items-center space-x-6"
@@ -75,7 +83,10 @@ const EditImage: React.FC<EditImageProps> = ({
                 <span className="text-red-600">This field is required</span>
               )}
             </div>
-            <div className="w-full">
+            <div className="w-full p-4">
+              <div className="mt-2 text-sm font-bold text-gray-700 tracking-wide">
+                Image
+              </div>
               <label className="block mt-4">
                 <input
                   type="file"

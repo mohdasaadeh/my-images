@@ -9,18 +9,18 @@ export const editImage = async (
   dispatch: AppDispatch,
 ) => {
   try {
-    setIsHidden(true);
-
     const { data } = await axios.patch(`/api/images/${image.id}/edit`, body);
 
     dispatch({
       type: ImageActionTypes.EDIT_IMAGE,
       payload: data,
     });
+
+    setIsHidden(true);
   } catch (error: any) {
     dispatch({
       type: ImageActionTypes.IMAGE_ERROR,
-      payload: error.message,
+      payload: error.response.data.message,
     });
   }
 };
