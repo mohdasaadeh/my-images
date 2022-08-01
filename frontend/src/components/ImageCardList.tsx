@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
+
 import ImageCard from './ImageCard';
-import { useTypedSelector } from '../hooks';
-import { useFetchImagesPaginated } from '../hooks';
-import { Image } from '../redux';
+import {
+  useTypedSelector,
+  useFetchImagesPaginated,
+  useAppDispatch,
+} from '../hooks';
+import { Image, ImageActionTypes } from '../redux';
 import ErrorBanner from './ErrorBanner';
 
 interface ImageCardListProps {
@@ -27,6 +32,14 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
       });
   }) as Image[];
   const error = useTypedSelector(({ images }) => images.error);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: ImageActionTypes.DELETE_IMAGES_PAGINATED,
+    });
+  }, []);
 
   const { lastImageElementRef } =
     useFetchImagesPaginated<HTMLDivElement>(searchTerm);
@@ -83,9 +96,9 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
     });
   };
 
-  return (
-    <div className="flex justify-around bg-primary">
-      <div className="container mx-auto mt-10">
+  return images && images.length > 0 ? (
+    <div className="flex justify-around bg-primary mt-5 mx-4">
+      <div className="container mx-auto">
         {renderError()}
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
           <div className="flex flex-col justify-center text-6xl rounded-xl p-6">
@@ -95,7 +108,7 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default ImageCardList;

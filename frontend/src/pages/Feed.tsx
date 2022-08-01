@@ -21,7 +21,7 @@ const Feed: React.FC<FeedProps> = ({ searchTerm }) => {
   return (
     <>
       <section>
-        <div className="container flex flex-col justify-between items-center lg:items-start px-6 py-10 mx-auto space-y-8 lg:flex-row lg:space-y-0">
+        <div className="flex flex-col justify-between items-center lg:items-start px-6 mx-auto lg:flex-row">
           <UserCard setIsAddImageHidden={setIsAddImageHidden} />
           <ImageCardList
             setIsDeleteImageHidden={setIsDeleteImageHidden}

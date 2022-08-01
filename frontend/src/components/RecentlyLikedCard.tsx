@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useTypedSelector } from '../hooks';
-import { useFetchLikedImagesPaginated } from '../hooks';
-import { Image } from '../redux';
+import {
+  useTypedSelector,
+  useFetchLikedImagesPaginated,
+  useAppDispatch,
+} from '../hooks';
+import { Image, LikedImageActionTypes } from '../redux';
 
 const RecentlyLikedCard: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const likedImages = useTypedSelector(({ likedImages }) => {
     return likedImages.order
       .sort((a, b) => b - a)
@@ -15,6 +20,12 @@ const RecentlyLikedCard: React.FC = () => {
         );
       });
   }) as Image[];
+
+  useEffect(() => {
+    dispatch({
+      type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
+    });
+  }, []);
 
   useFetchLikedImagesPaginated<HTMLDivElement>();
 
@@ -40,9 +51,9 @@ const RecentlyLikedCard: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-between">
-      <div style={{ width: '17rem' }}>
-        <div className="bg-primary mt-10 flex flex-col items-center justify-center p-4 rounded-2xl">
+    <div className="flex flex-col justify-between w-72">
+      <div className="w-full">
+        <div className="bg-primary mt-5 flex flex-col items-center justify-center p-4 rounded-2xl">
           <div className="mx-auto rounded-full py-2 w-50">
             <h1>Recent Activities</h1>
           </div>

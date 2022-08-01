@@ -37,7 +37,7 @@ const Signup: React.FC = () => {
         <div className="py-12 lg:bg-white flex justify-center lg:justify-start lg:px-12">
           <div className="cursor-pointer flex items-center">
             <div className="pt-2">
-              <img src="./img/logo.svg" alt="" />
+              <img src="/logo.png" alt="Logo Image" />
             </div>
           </div>
         </div>
@@ -117,8 +117,8 @@ const Signup: React.FC = () => {
         </div>
       </div>
       <div className="hidden lg:flex items-center justify-center bg-info-background flex-1 h-screen">
-        <div className="max-w-xs transform duration-200 hover:scale-110 cursor-pointer">
-          <img src="./img/logo.svg" alt="" />
+        <div className="max-w-lg transform duration-200 hover:scale-110 cursor-pointer">
+          <img src="/login.jpg" alt="Login Image" />
         </div>
       </div>
     </div>

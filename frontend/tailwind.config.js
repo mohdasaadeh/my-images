@@ -19,6 +19,19 @@ module.exports = {
         },
       },
     },
+    kayframes: {
+      fadeInFrames: {
+        '0%': {
+          opacity: 0,
+        },
+        '100%': {
+          opacity: 1,
+        },
+      },
+    },
+    animation: {
+      fadeIn: 'fadeInFrames 0.7s',
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 };

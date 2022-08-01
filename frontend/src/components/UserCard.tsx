@@ -15,10 +15,10 @@ const UserCard: React.FC<UserCardProps> = ({ setIsAddImageHidden }) => {
   return (
     <>
       <div
-        className="flex flex-col mt-10 items-center w-auto justify-between space-y-12 lg:flex-col lg:space-y-0
+        className="flex flex-col mt-5 items-center w-72 justify-between space-y-12 lg:flex-col lg:space-y-0
            lg:items-start"
       >
-        <div style={{ width: '17rem' }}>
+        <div className="w-full">
           <div className="bg-primary flex flex-col items-center justify-center p-4 rounded-2xl">
             <div className="profile mx-auto rounded-full py-2 w-24">
               <img src={user.image} alt="profile" />

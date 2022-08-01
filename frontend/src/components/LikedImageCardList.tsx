@@ -1,7 +1,12 @@
+import { useEffect } from 'react';
+
 import ImageCard from './ImageCard';
-import { useTypedSelector } from '../hooks';
-import { useFetchLikedImagesPaginated } from '../hooks';
-import { Image } from '../redux';
+import {
+  useTypedSelector,
+  useFetchLikedImagesPaginated,
+  useAppDispatch,
+} from '../hooks';
+import { Image, LikedImageActionTypes } from '../redux';
 
 interface LikedImageCardListProps {
   setIsDeleteImageHidden: Function;
@@ -25,6 +30,14 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
         );
       });
   }) as Image[];
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
+    });
+  }, []);
 
   const { lastImageElementRef } =
     useFetchLikedImagesPaginated<HTMLDivElement>();
@@ -70,7 +83,7 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
   };
 
   return (
-    <div className="flex justify-around bg-primary">
+    <div className="flex justify-around bg-primary mt-5 mx-4">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6">
           <div className="flex flex-col justify-center text-6xl rounded-xl p-6">
