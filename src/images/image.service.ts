@@ -42,16 +42,9 @@ export class ImageService {
     queryBuilder
       .leftJoinAndSelect('image.user', 'user')
       .where('image.active = :active', { active: true })
+      .andWhere('image.title like :title', { title: `%${term}%` })
       .select(['image', 'user.id', 'user.username', 'user.image'])
       .getMany();
-
-    if (term) {
-      queryBuilder
-        .where('image.title like :title', { title: `%${term}%` })
-        .orWhere('image.description like :description', {
-          description: `%${term}%`,
-        });
-    }
 
     const result = await paginate<Image>(queryBuilder, options);
 
