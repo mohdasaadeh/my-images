@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { Image, User, AppDispatch, LikedImageActionTypes } from '../redux';
-import { useImage } from '../hooks';
-
-const useAppDispatch: () => AppDispatch = useDispatch;
+import { Image, User, LikedImageActionTypes } from '../redux';
+import { createLike, deleteLike } from '../api';
+import { useAppDispatch } from '../hooks';
 
 interface ImageCardProps {
   image: Image;
@@ -26,8 +24,6 @@ const ImageCard: React.FC<ImageCardProps> = ({
 
   const dispatch = useAppDispatch();
 
-  const { createLike, deleteLike } = useImage();
-
   const renderLikeButton = () => {
     if (isLiked) {
       return (
@@ -39,7 +35,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
             setIsLiked(!isLiked);
             setLikesCount(likesCount - 1);
 
-            deleteLike(image);
+            deleteLike(image, dispatch);
 
             dispatch({
               type: LikedImageActionTypes.DELETE_LIKED_IMAGE,
@@ -72,7 +68,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
             setIsLiked(!isLiked);
             setLikesCount(likesCount + 1);
 
-            createLike(image);
+            createLike(image, dispatch);
 
             image.likes.currentUserLikeDate = Date.now();
 

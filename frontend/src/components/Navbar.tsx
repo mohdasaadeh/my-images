@@ -1,11 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-import { useTypedSelector, useAuth } from '../hooks';
-import { ImageActionTypes, AppDispatch } from '../redux';
-
-const useAppDispatch: () => AppDispatch = useDispatch;
+import { useTypedSelector, useAppDispatch } from '../hooks';
+import { ImageActionTypes } from '../redux';
+import { checkUser, deleteUser } from '../api';
 
 interface NavbarProps {
   setSearchTerm: Function;
@@ -20,14 +18,12 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
 
   const user = useTypedSelector(({ user }) => user.data);
 
-  const { checkUser, deleteUser } = useAuth();
-
   useEffect(() => {
-    checkUser();
+    checkUser(dispatch);
   }, []);
 
   const onSignout = () => {
-    deleteUser();
+    deleteUser(dispatch, navigate);
   };
 
   const renderAuth = (): JSX.Element => {

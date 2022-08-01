@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import { useImage } from '../hooks';
-import { AppDispatch } from '../redux';
+import { createImage } from '../api';
+import { useAppDispatch } from '../hooks';
 
 let modalRoot = document.getElementById('modal-root');
 if (!modalRoot) {
@@ -25,11 +24,7 @@ interface AddImageProps {
 }
 
 const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
-  const useAppDispatch: () => AppDispatch = useDispatch;
-
   const dispatch = useAppDispatch();
-
-  const { createImage } = useImage();
 
   const {
     register,

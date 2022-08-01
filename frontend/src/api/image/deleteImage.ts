@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-import { AppDispatch, ImageActionTypes } from '../../redux';
+import { AppDispatch, ImageActionTypes, Image } from '../../redux';
 
-export const createImage = async (
-  body: FormData,
+export const deleteImage = async (
+  image: Image,
   setIsHidden: Function,
   dispatch: AppDispatch,
 ) => {
   try {
     setIsHidden(true);
 
-    const { data } = await axios.post('/api/images/new', body);
+    const { data } = await axios.delete(`/api/images/${image.id}/delete`);
 
     dispatch({
-      type: ImageActionTypes.CREATE_IMAGE,
+      type: ImageActionTypes.DELETE_IMAGE,
       payload: data,
     });
   } catch (error: any) {

@@ -1,8 +1,9 @@
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { useImage } from '../hooks';
+import { editImage } from '../api';
 import { Image } from '../redux';
+import { useAppDispatch } from '../hooks';
 
 type Inputs = {
   title: string;
@@ -21,7 +22,7 @@ const EditImage: React.FC<EditImageProps> = ({
   isHidden,
   setIsHidden,
 }) => {
-  const { editImage } = useImage();
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -41,7 +42,7 @@ const EditImage: React.FC<EditImageProps> = ({
     if (data.image[0]) formData.append('image', data.image[0]);
     formData.append('description', data.description);
 
-    if (image) editImage(image, formData, setIsHidden);
+    if (image) editImage(image, formData, setIsHidden, dispatch);
   };
 
   return ReactDOM.createPortal(

@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../hooks';
-import { User, AppDispatch } from '../redux';
+import { useAppDispatch } from '../hooks';
+import { User } from '../redux';
+import { editUser } from '../api';
 
 type Inputs = {
   username: string;
@@ -18,12 +18,8 @@ interface EditUserProps {
 }
 
 const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
-  const useAppDispatch: () => AppDispatch = useDispatch;
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const { editUser } = useAuth();
 
   const {
     register,

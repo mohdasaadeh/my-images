@@ -1,4 +1,3 @@
 export * from './useTypedSelector';
+export * from './useAppDispatch';
 export * from './image';
-export * from './useAuth';
-export * from './useImage';

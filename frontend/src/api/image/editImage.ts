@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-import { AppDispatch, ImageActionTypes } from '../../redux';
+import { AppDispatch, ImageActionTypes, Image } from '../../redux';
 
-export const createImage = async (
+export const editImage = async (
+  image: Image,
   body: FormData,
   setIsHidden: Function,
   dispatch: AppDispatch,
@@ -10,10 +11,10 @@ export const createImage = async (
   try {
     setIsHidden(true);
 
-    const { data } = await axios.post('/api/images/new', body);
+    const { data } = await axios.patch(`/api/images/${image.id}/edit`, body);
 
     dispatch({
-      type: ImageActionTypes.CREATE_IMAGE,
+      type: ImageActionTypes.EDIT_IMAGE,
       payload: data,
     });
   } catch (error: any) {

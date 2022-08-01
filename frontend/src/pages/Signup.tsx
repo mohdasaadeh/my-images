@@ -1,9 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 
-import { useAuth } from '../hooks';
-import { AppDispatch } from '../redux';
+import { useAppDispatch } from '../hooks';
+import { createUser } from '../api';
 
 type Inputs = {
   email: string;
@@ -13,12 +12,8 @@ type Inputs = {
 };
 
 const Signup: React.FC = () => {
-  const useAppDispatch: () => AppDispatch = useDispatch;
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const { createUser } = useAuth();
 
   const {
     register,
