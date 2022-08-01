@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { useAppDispatch, useTypedSelector } from '../hooks';
-import { createUser } from '../api';
+import { createUser, checkUser } from '../api';
 import ErrorBanner from '../components/ErrorBanner';
+import { ImageActionTypes, LikedImageActionTypes } from '../redux';
 
 type Inputs = {
   email: string;
@@ -17,6 +19,22 @@ const Signup: React.FC = () => {
   const navigate = useNavigate();
 
   const error = useTypedSelector(({ user }) => user.error);
+  const user = useTypedSelector(({ user }) => user.data);
+
+  useEffect(() => {
+    checkUser(dispatch);
+
+    if (user.id !== 'out') {
+      navigate('/');
+
+      dispatch({
+        type: ImageActionTypes.DELETE_IMAGES_PAGINATED,
+      });
+      dispatch({
+        type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
+      });
+    }
+  }, []);
 
   const {
     register,
@@ -31,7 +49,7 @@ const Signup: React.FC = () => {
     createUser(data, dispatch, navigate);
   };
 
-  return (
+  return user.id === 'out' ? (
     <div className="lg:flex">
       <div className="lg:w-1/2 xl:max-w-screen-sm">
         <div className="py-12 lg:bg-white flex justify-center lg:justify-start lg:px-12">
@@ -122,7 +140,7 @@ const Signup: React.FC = () => {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default Signup;
