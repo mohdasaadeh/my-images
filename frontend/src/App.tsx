@@ -9,7 +9,7 @@ import RecentlyLiked from './pages/RecentlyLiked';
 import Navbar from './components/Navbar';
 
 const App: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState({ value: '' });
 
   return (
     <React.Fragment>

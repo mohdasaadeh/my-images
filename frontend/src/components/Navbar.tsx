@@ -93,7 +93,7 @@ const Navbar: React.FC<NavbarProps> = ({ setSearchTerm }) => {
               onClick={() => {
                 navigate('/');
 
-                setSearchTerm(inputRef.current.value);
+                setSearchTerm({ value: inputRef.current.value });
 
                 dispatch({
                   type: ImageActionTypes.DELETE_IMAGES_PAGINATED,

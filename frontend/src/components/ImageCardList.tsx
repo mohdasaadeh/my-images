@@ -7,7 +7,7 @@ interface ImageCardListProps {
   setIsDeleteImageHidden: Function;
   setIsEditImageHidden: Function;
   setImage: Function;
-  searchTerm: string;
+  searchTerm: { value: string };
 }
 
 const ImageCardList: React.FC<ImageCardListProps> = ({

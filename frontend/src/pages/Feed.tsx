@@ -9,7 +9,7 @@ import DeleteImage from '../modals/DeleteImage';
 import EditImage from '../modals/EditImage';
 
 interface FeedProps {
-  searchTerm: string;
+  searchTerm: { value: string };
 }
 
 const Feed: React.FC<FeedProps> = ({ searchTerm }) => {

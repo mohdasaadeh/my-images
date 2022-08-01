@@ -9,7 +9,7 @@ import { useTypedSelector } from '../useTypedSelector';
 
 const useAppDispatch: () => AppDispatch = useDispatch;
 
-export const useFetchImagesPaginated = <T>(term: string) => {
+export const useFetchImagesPaginated = <T>(term: { value: string }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [hasMore, setHasMore] = useState(false);
 
@@ -49,7 +49,7 @@ export const useFetchImagesPaginated = <T>(term: string) => {
 
       axios
         .get('/api/images', {
-          params: { page: pageNumber, limit: 10, term },
+          params: { page: pageNumber, limit: 10, term: term.value },
           signal: canceller.signal,
         })
         .then((res) => {
