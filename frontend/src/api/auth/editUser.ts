@@ -15,6 +15,10 @@ export const editUser = async (
   dispatch: AppDispatch,
 ) => {
   try {
+    dispatch({
+      type: UserActionTypes.USER_LOADING,
+    });
+
     const { data } = await axios.patch(`/api/users/${user.id}/edit`, body);
 
     dispatch({

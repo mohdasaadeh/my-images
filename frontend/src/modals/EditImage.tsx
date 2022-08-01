@@ -5,6 +5,7 @@ import { editImage } from '../api';
 import { Image } from '../redux';
 import { useAppDispatch, useTypedSelector } from '../hooks';
 import ErrorBanner from '../components/ErrorBanner';
+import LoadingBanner from '../components/LoadingBanner';
 
 type Inputs = {
   title: string;
@@ -25,6 +26,7 @@ const EditImage: React.FC<EditImageProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const loading = useTypedSelector(({ images }) => images.loading);
   const error = useTypedSelector(({ images }) => images.error);
 
   const {
@@ -115,6 +117,11 @@ const EditImage: React.FC<EditImageProps> = ({
                 )}
               </div>
             </div>
+            {loading && (
+              <div className="my-4 w-full">
+                <LoadingBanner />
+              </div>
+            )}
             <div className="mt-8 pt-8 sm:pt-4 border-t -mx-8 px-8 flex flex-col sm:flex-row justify-end leading-relaxed">
               <button
                 type="submit"

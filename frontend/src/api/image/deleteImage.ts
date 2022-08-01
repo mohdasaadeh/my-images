@@ -8,6 +8,10 @@ export const deleteImage = async (
   dispatch: AppDispatch,
 ) => {
   try {
+    dispatch({
+      type: ImageActionTypes.IMAGE_LOADING,
+    });
+
     const { data } = await axios.delete(`/api/images/${image.id}/delete`);
 
     dispatch({

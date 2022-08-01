@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { createImage } from '../api';
 import { useAppDispatch, useTypedSelector } from '../hooks';
 import ErrorBanner from '../components/ErrorBanner';
+import LoadingBanner from '../components/LoadingBanner';
 
 let modalRoot = document.getElementById('modal-root');
 if (!modalRoot) {
@@ -27,6 +28,7 @@ interface AddImageProps {
 const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
   const dispatch = useAppDispatch();
 
+  const loading = useTypedSelector(({ images }) => images.loading);
   const error = useTypedSelector(({ images }) => images.error);
 
   const {
@@ -128,6 +130,11 @@ const AddImage: React.FC<AddImageProps> = ({ isHidden, setIsHidden }) => {
                 )}
               </div>
             </div>
+            {loading && (
+              <div className="my-4 w-full">
+                <LoadingBanner />
+              </div>
+            )}
             <div className="mt-8 pt-8 sm:pt-4 border-t -mx-8 px-8 flex flex-col sm:flex-row justify-end leading-relaxed">
               <button
                 data-testid="image-add-submit"

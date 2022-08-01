@@ -4,6 +4,7 @@ import { Image, LikedImageActionTypes } from '../redux';
 import { deleteImage } from '../api';
 import { useAppDispatch, useTypedSelector } from '../hooks';
 import ErrorBanner from '../components/ErrorBanner';
+import LoadingBanner from '../components/LoadingBanner';
 
 interface DeleteImageProps {
   isHidden: boolean;
@@ -18,6 +19,7 @@ const DeleteImage: React.FC<DeleteImageProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const loading = useTypedSelector(({ images }) => images.loading);
   const error = useTypedSelector(({ images }) => images.error);
 
   return ReactDOM.createPortal(
@@ -36,6 +38,11 @@ const DeleteImage: React.FC<DeleteImageProps> = ({
           </div>
         )}
         <p className="mt-2">Are you sure that you want to delete this image?</p>
+        {loading && (
+          <div className="my-4 w-full">
+            <LoadingBanner />
+          </div>
+        )}
         <div className="mt-8 pt-8 sm:pt-4 border-t -mx-8 px-8 flex sm:flex-row justify-between leading-relaxed">
           <button
             onClick={() => {

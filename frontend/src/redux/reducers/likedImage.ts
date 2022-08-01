@@ -24,8 +24,8 @@ const likedImageReducer = (
     case LikedImageActionTypes.LIKED_IMAGE_LOADING:
       return {
         loading: true,
-        data: [...state.data],
-        order: [...state.order],
+        data: state.data,
+        order: state.order,
         error: null,
       };
     case LikedImageActionTypes.FETCH_LIKED_IMAGES_PAGINATED:

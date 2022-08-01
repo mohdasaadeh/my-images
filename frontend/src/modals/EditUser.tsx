@@ -5,6 +5,7 @@ import { useAppDispatch, useTypedSelector } from '../hooks';
 import { User } from '../redux';
 import { editUser } from '../api';
 import ErrorBanner from '../components/ErrorBanner';
+import LoadingBanner from '../components/LoadingBanner';
 
 type Inputs = {
   username: string;
@@ -20,6 +21,7 @@ interface EditUserProps {
 const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
   const dispatch = useAppDispatch();
 
+  const loading = useTypedSelector(({ user }) => user.loading);
   const error = useTypedSelector(({ user }) => user.error);
 
   const {
@@ -87,6 +89,11 @@ const EditUser: React.FC<EditUserProps> = ({ user, isHidden, setIsHidden }) => {
                 />
               </label>
             </div>
+            {loading && (
+              <div className="my-4 w-full">
+                <LoadingBanner />
+              </div>
+            )}
             <div className="mt-8 pt-8 sm:pt-4 border-t -mx-8 px-8 flex flex-col sm:flex-row justify-end leading-relaxed">
               <button
                 type="submit"

@@ -158,11 +158,10 @@ export class ImageService {
 
     if (likedByCurrentUser) {
       result['likes']['likedByCurrentUser'] = true;
+      result['likes']['currentUserLikeDate'] = likedByCurrentUser.createdAt;
     } else {
       result['likes']['likedByCurrentUser'] = false;
     }
-
-    result['likes']['currentUserLikeDate'] = likedByCurrentUser.createdAt;
 
     return result;
   }

@@ -9,6 +9,10 @@ export const editImage = async (
   dispatch: AppDispatch,
 ) => {
   try {
+    dispatch({
+      type: ImageActionTypes.IMAGE_LOADING,
+    });
+
     const { data } = await axios.patch(`/api/images/${image.id}/edit`, body);
 
     dispatch({

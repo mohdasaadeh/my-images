@@ -8,6 +8,10 @@ export const createImage = async (
   dispatch: AppDispatch,
 ) => {
   try {
+    dispatch({
+      type: ImageActionTypes.IMAGE_LOADING,
+    });
+
     const { data } = await axios.post('/api/images/new', body);
 
     dispatch({

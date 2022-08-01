@@ -49,6 +49,12 @@ const userReducer = (
       };
     case UserActionTypes.DELETE_USER:
       return { loading: false, data: initialState.data, error: null };
+    case UserActionTypes.USER_LOADING:
+      return {
+        loading: true,
+        data: state.data,
+        error: null,
+      };
     case UserActionTypes.USER_ERROR:
       return {
         loading: false,

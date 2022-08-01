@@ -24,8 +24,8 @@ const imageReducer = (
     case ImageActionTypes.IMAGE_LOADING:
       return {
         loading: true,
-        data: [...state.data],
-        order: [...state.order],
+        data: state.data,
+        order: state.order,
         error: null,
       };
     case ImageActionTypes.FETCH_IMAGES_PAGINATED:

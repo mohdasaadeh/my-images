@@ -25,6 +25,10 @@ export interface DeleteUserAction {
   type: UserActionTypes.DELETE_USER;
 }
 
+export interface UserLoadingAction {
+  type: UserActionTypes.USER_LOADING;
+}
+
 export interface UserErrorAction {
   type: UserActionTypes.USER_ERROR;
   payload: string;
@@ -36,4 +40,5 @@ export type UserActions =
   | CreateUserAction
   | EditUserAction
   | DeleteUserAction
+  | UserLoadingAction
   | UserErrorAction;
