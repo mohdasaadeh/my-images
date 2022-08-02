@@ -42,7 +42,7 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
         term: { value: string },
       ) => {
         return axios.get('/api/images', {
-          params: { page: pageNumber, limit: 10, term: term.value },
+          params: { page: pageNumber, limit: 5, term: term.value },
           signal: canceller.signal,
         });
       },

@@ -11,6 +11,7 @@ const RecentlyLikedCard: React.FC = () => {
   const likedImages = useTypedSelector(({ likedImages }) => {
     return likedImages.data;
   });
+  const user = useTypedSelector(({ user }) => user.data);
 
   useEffect(() => {
     const canceller = new AbortController();
@@ -19,20 +20,22 @@ const RecentlyLikedCard: React.FC = () => {
       type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
     });
 
-    axios
-      .get('/api/images/recently-liked', {
-        signal: canceller.signal,
-      })
-      .then((res) => {
-        dispatch({
-          type: LikedImageActionTypes.FETCH_LIKED_IMAGES_PAGINATED,
-          payload: res.data.items,
-        });
-      })
-      .catch(() => {});
+    if (user.id && user.id !== 'out') {
+      axios
+        .get('/api/images/recently-liked', {
+          signal: canceller.signal,
+        })
+        .then((res) => {
+          dispatch({
+            type: LikedImageActionTypes.FETCH_LIKED_IMAGES_PAGINATED,
+            payload: res.data.items,
+          });
+        })
+        .catch(() => {});
+    }
 
     return () => canceller.abort();
-  }, []);
+  }, [user]);
 
   const renderCardLikedImages = () => {
     if (!likedImages || !likedImages.length)

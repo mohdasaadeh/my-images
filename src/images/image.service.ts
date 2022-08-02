@@ -44,7 +44,7 @@ export class ImageService {
       .where('image.active = :active', { active: true })
       .andWhere('image.title like :title', { title: `%${term}%` })
       .select(['image', 'user.id', 'user.username', 'user.image'])
-      .orderBy('image.createdAt', 'DESC')
+      .orderBy('image.id', 'DESC')
       .getMany();
 
     const result = await paginate<Image>(queryBuilder, options);

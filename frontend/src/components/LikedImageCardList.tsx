@@ -34,7 +34,7 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
     useInfiniteScroll<HTMLDivElement>(
       (canceller: AbortController, pageNumber: number) => {
         return axios.get('/api/images/recently-liked', {
-          params: { page: pageNumber, limit: 10 },
+          params: { page: pageNumber, limit: 5 },
           signal: canceller.signal,
         });
       },

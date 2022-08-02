@@ -7,7 +7,6 @@ import Signup from './pages/Signup';
 import Feed from './pages/Feed';
 import RecentlyLiked from './pages/RecentlyLiked';
 import Navbar from './components/Navbar';
-import ProtectedRoute from './components/ProtectedRoute';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState({ value: '' });
@@ -17,26 +16,24 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/signin" element={<Signin />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
-        <Route element={<ProtectedRoute />}>
-          <Route
-            path="/"
-            element={
-              <>
-                <Navbar setSearchTerm={setSearchTerm} />
-                <Feed searchTerm={searchTerm} />
-              </>
-            }
-          ></Route>
-          <Route
-            path="/recently-liked"
-            element={
-              <>
-                <Navbar setSearchTerm={setSearchTerm} />
-                <RecentlyLiked />
-              </>
-            }
-          ></Route>
-        </Route>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar setSearchTerm={setSearchTerm} />
+              <Feed searchTerm={searchTerm} />
+            </>
+          }
+        ></Route>
+        <Route
+          path="/recently-liked"
+          element={
+            <>
+              <Navbar setSearchTerm={setSearchTerm} />
+              <RecentlyLiked />
+            </>
+          }
+        ></Route>
       </Routes>
     </React.Fragment>
   );

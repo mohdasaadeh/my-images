@@ -1,4 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { useTypedSelector } from './useTypedSelector';
 
 export const useInfiniteScroll = <T>(
   fetchCallback: Function,
@@ -9,6 +12,10 @@ export const useInfiniteScroll = <T>(
   const [scrollLoading, setScrollLoading] = useState(true);
   const [scrollData, setScrollData] = useState(null);
   const [scrollError, setScrollError] = useState(null);
+
+  const user = useTypedSelector(({ user }) => user.data);
+
+  const navigate = useNavigate();
 
   const observer = useRef<any>();
 
@@ -32,25 +39,29 @@ export const useInfiniteScroll = <T>(
   useEffect(() => {
     const canceller = new AbortController();
 
-    const fetchCallbackPromise = term
-      ? fetchCallback(canceller, pageNumber, term)
-      : fetchCallback(canceller, pageNumber);
+    if (user.id && user.id === 'out') {
+      navigate('/signin');
+    } else if (user.id && user.id !== 'out') {
+      const fetchCallbackPromise = term
+        ? fetchCallback(canceller, pageNumber, term)
+        : fetchCallback(canceller, pageNumber);
 
-    fetchCallbackPromise
-      .then((res: any) => {
-        setScrollData(res.data.items);
-        setHasMore(res.data.links.next);
-      })
-      .catch((error: any) => {
-        if (error.name !== 'CanceledError')
-          setScrollError(error.response.data.message);
-      })
-      .finally(() => {
-        setScrollLoading(false);
-      });
+      fetchCallbackPromise
+        .then((res: any) => {
+          setScrollData(res.data.items);
+          setHasMore(res.data.links.next);
+        })
+        .catch((error: any) => {
+          if (error.name !== 'CanceledError')
+            setScrollError(error.response.data.message);
+        })
+        .finally(() => {
+          setScrollLoading(false);
+        });
+    }
 
     return () => canceller.abort();
-  }, [pageNumber, term]);
+  }, [pageNumber, term, user]);
 
   return { lastImageElementRef, scrollData, scrollError, scrollLoading };
 };

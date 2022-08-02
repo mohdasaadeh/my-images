@@ -1,7 +1,3 @@
-.env.development
-.env.test
-development.sqlite
-test.sqlite
 users.http
 images.http
 image-likes.http
