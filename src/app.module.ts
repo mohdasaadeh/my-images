@@ -23,8 +23,11 @@ import { ImageLike } from './images/image-likes/image-like.entity';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
         return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
+          type: process.env.NODE_ENV === 'development' ? 'sqlite' : 'postgres',
+          database:
+            process.env.NODE_ENV === 'development'
+              ? config.get<string>('DB_NAME')
+              : config.get<string>('DATABASE_URL'),
           synchronize: true,
           entities: [User, Image, ImageLike],
         };

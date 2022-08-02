@@ -1,33 +1,38 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import {
-  useTypedSelector,
-  useFetchLikedImagesPaginated,
-  useAppDispatch,
-} from '../hooks';
-import { Image, LikedImageActionTypes } from '../redux';
+import { useTypedSelector, useAppDispatch } from '../hooks';
+import { LikedImageActionTypes } from '../redux';
 
 const RecentlyLikedCard: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const likedImages = useTypedSelector(({ likedImages }) => {
-    return likedImages.order
-      .sort((a, b) => b - a)
-      .map((likeDate) => {
-        return likedImages.data.find(
-          (likedImage) => likedImage.likes.currentUserLikeDate === likeDate,
-        );
-      });
-  }) as Image[];
+    return likedImages.data;
+  });
 
   useEffect(() => {
+    const canceller = new AbortController();
+
     dispatch({
       type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
     });
-  }, []);
 
-  useFetchLikedImagesPaginated<HTMLDivElement>();
+    axios
+      .get('/api/images/recently-liked', {
+        signal: canceller.signal,
+      })
+      .then((res) => {
+        dispatch({
+          type: LikedImageActionTypes.FETCH_LIKED_IMAGES_PAGINATED,
+          payload: res.data.items,
+        });
+      })
+      .catch(() => {});
+
+    return () => canceller.abort();
+  }, []);
 
   const renderCardLikedImages = () => {
     if (!likedImages || !likedImages.length)

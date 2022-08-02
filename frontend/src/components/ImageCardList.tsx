@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
+import axios from 'axios';
 
 import ImageCard from './ImageCard';
-import {
-  useTypedSelector,
-  useFetchImagesPaginated,
-  useAppDispatch,
-} from '../hooks';
-import { Image, ImageActionTypes } from '../redux';
+import { useTypedSelector, useAppDispatch, useInfiniteScroll } from '../hooks';
+import { ImageActionTypes } from '../redux';
 import ErrorBanner from './ErrorBanner';
 
 interface ImageCardListProps {
@@ -25,12 +22,8 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
   const user = useTypedSelector(({ user }) => user.data);
   const loading = useTypedSelector(({ images }) => images.loading);
   const images = useTypedSelector(({ images }) => {
-    return images.order
-      .sort((a, b) => b - a)
-      .map((id) => {
-        return images.data.find((likedImage) => likedImage.id === id);
-      });
-  }) as Image[];
+    return images.data;
+  });
   const error = useTypedSelector(({ images }) => images.error);
 
   const dispatch = useAppDispatch();
@@ -41,8 +34,36 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
     });
   }, []);
 
-  const { lastImageElementRef } =
-    useFetchImagesPaginated<HTMLDivElement>(searchTerm);
+  const { lastImageElementRef, scrollData, scrollError, scrollLoading } =
+    useInfiniteScroll<HTMLDivElement>(
+      (
+        canceller: AbortController,
+        pageNumber: number,
+        term: { value: string },
+      ) => {
+        return axios.get('/api/images', {
+          params: { page: pageNumber, limit: 10, term: term.value },
+          signal: canceller.signal,
+        });
+      },
+      searchTerm,
+    );
+
+  useEffect(() => {
+    if (scrollData)
+      dispatch({
+        type: ImageActionTypes.FETCH_IMAGES_PAGINATED,
+        payload: scrollData,
+      });
+
+    if (scrollError)
+      dispatch({
+        type: ImageActionTypes.IMAGE_ERROR,
+        payload: scrollError,
+      });
+
+    if (scrollLoading) dispatch({ type: ImageActionTypes.IMAGE_LOADING });
+  }, [scrollData, scrollLoading, scrollError]);
 
   const renderError = () => {
     if (!error) return null;
@@ -108,7 +129,9 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
         </div>
       </div>
     </div>
-  ) : null;
+  ) : (
+    <h1>No images</h1>
+  );
 };
 
 export default ImageCardList;

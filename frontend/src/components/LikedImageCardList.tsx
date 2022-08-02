@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
+import axios from 'axios';
 
 import ImageCard from './ImageCard';
-import {
-  useTypedSelector,
-  useFetchLikedImagesPaginated,
-  useAppDispatch,
-} from '../hooks';
-import { Image, LikedImageActionTypes } from '../redux';
+import { useTypedSelector, useAppDispatch, useInfiniteScroll } from '../hooks';
+import { LikedImageActionTypes } from '../redux';
 
 interface LikedImageCardListProps {
   setIsDeleteImageHidden: Function;
@@ -22,14 +19,8 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
   const user = useTypedSelector(({ user }) => user.data);
   const loading = useTypedSelector(({ likedImages }) => likedImages.loading);
   const likedImages = useTypedSelector(({ likedImages }) => {
-    return likedImages.order
-      .sort((a, b) => b - a)
-      .map((likeDate) => {
-        return likedImages.data.find(
-          (likedImage) => likedImage.likes.currentUserLikeDate === likeDate,
-        );
-      });
-  }) as Image[];
+    return likedImages.data;
+  });
 
   const dispatch = useAppDispatch();
 
@@ -39,8 +30,32 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
     });
   }, []);
 
-  const { lastImageElementRef } =
-    useFetchLikedImagesPaginated<HTMLDivElement>();
+  const { lastImageElementRef, scrollData, scrollError, scrollLoading } =
+    useInfiniteScroll<HTMLDivElement>(
+      (canceller: AbortController, pageNumber: number) => {
+        return axios.get('/api/images/recently-liked', {
+          params: { page: pageNumber, limit: 10 },
+          signal: canceller.signal,
+        });
+      },
+    );
+
+  useEffect(() => {
+    if (scrollData)
+      dispatch({
+        type: LikedImageActionTypes.FETCH_LIKED_IMAGES_PAGINATED,
+        payload: scrollData,
+      });
+
+    if (scrollError)
+      dispatch({
+        type: LikedImageActionTypes.LIKED_IMAGE_ERROR,
+        payload: scrollError,
+      });
+
+    if (scrollLoading)
+      dispatch({ type: LikedImageActionTypes.LIKED_IMAGE_LOADING });
+  }, [scrollData, scrollLoading, scrollError]);
 
   const renderLikedImageCards = () => {
     if (!likedImages.length || !user.id || user.id === 'out') return null;

@@ -53,8 +53,8 @@ const likedImageReducer = (
 
       return {
         loading: false,
-        data: state.data,
-        order: state.order,
+        data: [...state.data],
+        order: [...state.order],
         error: null,
       };
     case LikedImageActionTypes.DELETE_LIKED_IMAGE:
@@ -67,8 +67,8 @@ const likedImageReducer = (
 
       return {
         loading: false,
-        data: deleteData,
-        order: deleteOrder,
+        data: [...deleteData],
+        order: [...deleteOrder],
         error: null,
       };
     case LikedImageActionTypes.LIKED_IMAGE_ERROR:

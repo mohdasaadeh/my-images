@@ -22,9 +22,6 @@ describe('Routes and Components Mounting', () => {
       /Feed/i,
     );
     expect(
-      screen.getAllByRole('link', { name: /search in web/i })[0],
-    ).toHaveTextContent(/Search in web/i);
-    expect(
       screen.getByRole('button', { name: /edit profile/i }),
     ).toHaveTextContent(/Edit Profile/i);
     expect(
@@ -50,9 +47,6 @@ describe('Routes and Components Mounting', () => {
     expect(screen.getAllByRole('link', { name: /feed/i })[0]).toHaveTextContent(
       /Feed/i,
     );
-    expect(
-      screen.getByRole('button', { name: /edit profile/i }),
-    ).toHaveTextContent(/Edit Profile/i);
   });
 
   test('Sign up page mounts with username, email, password fields, and sign up button', () => {

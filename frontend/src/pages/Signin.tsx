@@ -22,17 +22,16 @@ const Signin: React.FC = () => {
   useEffect(() => {
     checkUser(dispatch);
 
-    if (user.id !== 'out')
-      if (user.id !== 'out') {
-        navigate('/');
+    if (user.id !== 'out') {
+      navigate('/');
 
-        dispatch({
-          type: ImageActionTypes.DELETE_IMAGES_PAGINATED,
-        });
-        dispatch({
-          type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
-        });
-      }
+      dispatch({
+        type: ImageActionTypes.DELETE_IMAGES_PAGINATED,
+      });
+      dispatch({
+        type: LikedImageActionTypes.DELETE_LIKED_IMAGES_PAGINATED,
+      });
+    }
   }, []);
 
   const {
