@@ -32,3 +32,12 @@ npm run start
 # Stack
 
 This application was built from scratch using React for the frontend, and NestJS for the backend.
+
+# Features
+
+- Infinite scrolling for all app user images in the Feed page and for the user liked ones in Recently Liked page.
+- Full authentication system that allows users to sign up, sign in, and sign out.
+- Users can edit their profile username and upload/edit their profile picture.
+- Ability to search for users added images by title.
+- Recently liked widget to show the latest users liked images.
+- Full interaction with images including adding, uploading, downloading, liking, editing, and deleting.
