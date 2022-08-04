@@ -38,6 +38,7 @@ const LikedImageCardList: React.FC<LikedImageCardListProps> = ({
           signal: canceller.signal,
         });
       },
+      likedImages,
     );
 
   useEffect(() => {

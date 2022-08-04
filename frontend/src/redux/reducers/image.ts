@@ -51,8 +51,8 @@ const imageReducer = (
 
       return {
         loading: false,
-        data: state.data,
-        order: state.order,
+        data: [...state.data],
+        order: [...state.order],
         error: null,
       };
     case ImageActionTypes.EDIT_IMAGE:

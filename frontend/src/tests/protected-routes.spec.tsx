@@ -2,18 +2,46 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
 
-import { store } from '../redux';
-import App from '../App';
+import Feed from '../pages/Feed';
+import RecentlyLiked from '../pages/RecentlyLiked';
+
+jest.mock('../api/auth');
+jest.mock('../api/image');
+
+const initialState = {
+  user: {
+    data: { id: 1 },
+    error: null,
+    loading: false,
+  },
+  images: {
+    data: [],
+    error: null,
+    loading: false,
+  },
+  likedImages: {
+    data: [],
+    error: null,
+    loading: false,
+  },
+};
+
+function reducer(state = initialState, action: any) {
+  return state;
+}
 
 describe('Routes and Components Mounting', () => {
   test('Feed page mounts with all components', () => {
     window.history.pushState({}, 'Test Page', '/');
 
+    const store = createStore(reducer);
+
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <Feed searchTerm={{ value: '' }} />
         </BrowserRouter>
       </Provider>,
     );
@@ -36,53 +64,18 @@ describe('Routes and Components Mounting', () => {
   test('Recently liked page mounts with all components', () => {
     window.history.pushState({}, 'Test Page', '/recently-liked');
 
+    const store = createStore(reducer);
+
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <RecentlyLiked />
         </BrowserRouter>
       </Provider>,
     );
 
     expect(screen.getAllByRole('link', { name: /feed/i })[0]).toHaveTextContent(
       /Feed/i,
-    );
-  });
-
-  test('Sign up page mounts with username, email, password fields, and sign up button', () => {
-    window.history.pushState({}, 'Test Page', '/signup');
-
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>,
-    );
-
-    expect(screen.getByText(/username/i)).toHaveTextContent(/username/i);
-    expect(screen.getByText(/email/i)).toHaveTextContent(/email/i);
-    expect(screen.getByText(/password/i)).toHaveTextContent(/password/i);
-    expect(screen.getByRole('button', { name: /sign up/i })).toHaveTextContent(
-      /sign up/i,
-    );
-  });
-
-  test('Sign in page mounts with email, password fields, and sign in button', () => {
-    window.history.pushState({}, 'Test Page', '/signin');
-
-    render(
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>,
-    );
-
-    expect(screen.getByText(/email/i)).toHaveTextContent(/email/i);
-    expect(screen.getByText(/password/i)).toHaveTextContent(/password/i);
-    expect(screen.getByRole('button', { name: /sign in/i })).toHaveTextContent(
-      /sign in/i,
     );
   });
 });

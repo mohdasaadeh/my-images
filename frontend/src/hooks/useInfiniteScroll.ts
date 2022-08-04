@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Image } from '../redux';
 
 import { useTypedSelector } from './useTypedSelector';
 
 export const useInfiniteScroll = <T>(
   fetchCallback: Function,
+  images: Image[],
   term?: { value: string },
 ) => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -26,14 +28,19 @@ export const useInfiniteScroll = <T>(
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (
+          entries[0].isIntersecting &&
+          entries[0].boundingClientRect.bottom !==
+            entries[0].intersectionRect.bottom &&
+          hasMore
+        ) {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
         }
       });
 
       if (node) observer.current.observe(node);
     },
-    [scrollLoading, hasMore],
+    [scrollLoading, hasMore, images],
   );
 
   useEffect(() => {

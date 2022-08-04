@@ -2,10 +2,24 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
 
-import { store } from '../redux';
 import Signup from '../pages/Signup';
-import * as createUserHelper from '../api/auth/createUser';
+import { createUser } from '../api/auth';
+
+jest.mock('../api/auth');
+
+const initialState = {
+  user: {
+    data: { id: 'out' },
+    error: null,
+    loading: false,
+  },
+};
+
+function reducer(state = initialState, action: any) {
+  return state;
+}
 
 test('Signup submits the filled data with default user profile picture', async () => {
   const testData = {
@@ -16,7 +30,7 @@ test('Signup submits the filled data with default user profile picture', async (
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMcqFkYiM95XcWYnNkAnbTqxBZVaVzaWI5CIrmsXIXsSstDkBmDFXhyisY1PQP1T38yx8&usqp=CAU',
   };
 
-  const createUserMock = jest.spyOn(createUserHelper, 'createUser');
+  const store = createStore(reducer);
 
   render(
     <Provider store={store}>
@@ -42,5 +56,5 @@ test('Signup submits the filled data with default user profile picture', async (
     );
   });
 
-  expect(createUserMock).toHaveBeenCalledTimes(1);
+  expect(createUser).toHaveBeenCalledTimes(1);
 });

@@ -2,10 +2,24 @@ import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
 
-import { store } from '../redux';
-import * as fetchUserHelper from '../api/auth/fetchUser';
 import Signin from '../pages/Signin';
+import { fetchUser } from '../api/auth';
+
+jest.mock('../api/auth');
+
+const initialState = {
+  user: {
+    data: { id: 'out' },
+    error: null,
+    loading: false,
+  },
+};
+
+function reducer(state = initialState, action: any) {
+  return state;
+}
 
 test('Signin submits the filled data', async () => {
   const testData = {
@@ -13,7 +27,7 @@ test('Signin submits the filled data', async () => {
     password: '123',
   };
 
-  const fetchUserMock = jest.spyOn(fetchUserHelper, 'fetchUser');
+  const store = createStore(reducer);
 
   render(
     <Provider store={store}>
@@ -35,5 +49,5 @@ test('Signin submits the filled data', async () => {
     );
   });
 
-  expect(fetchUserMock).toHaveBeenCalledTimes(1);
+  expect(fetchUser).toHaveBeenCalledTimes(1);
 });

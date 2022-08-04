@@ -46,6 +46,7 @@ const ImageCardList: React.FC<ImageCardListProps> = ({
           signal: canceller.signal,
         });
       },
+      images,
       searchTerm,
     );
 
